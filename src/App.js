@@ -5,6 +5,7 @@ import HeaderMain from './components/header/headerMain';
 import RegistrMain from './components/registr/registrMain';
 import PasswordConfirmMain from './components/auth/passwordConfirm/passwordConfirmMain';
 import ListOfClientsMain from './components/listOfClients/listOfClientsMain';
+import ClientInfoMain from './components/clientInfo/clientInfoMain';
 
 function App() {
   return (
@@ -15,11 +16,13 @@ function App() {
         {/* <RegistrMain /> */}
         {/* <PasswordConfirmMain /> */}
         {/* <ListOfClientsMain /> */}
+        {/* <ClientInfoMain /> */}
         <Routes>
           <Route path='/' Component={AuthMain} />
           <Route path='/registration' Component={RegistrMain} />
           <Route path='/passwordConfirm' Component={PasswordConfirmMain} />
           <Route path='/clients' Component={ListOfClientsMain} />
+          <Route path='/clients/id/details' Component={ClientInfoMain} />
         </Routes>
       </div>
     </BrowserRouter>

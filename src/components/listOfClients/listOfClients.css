@@ -2,4 +2,16 @@
     background-color: #D6E4FF;
     border-radius: 10px;
     height: 139px;
+    display: flex;
+    margin-bottom: 2vh;
+}
+
+.clientCardLeftBlock {
+    text-align: left;
+    font-size: 18px;
+}
+
+.clientCardRightBlock {
+    margin-left: auto;
+    text-align: right;
 }

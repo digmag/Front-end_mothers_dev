@@ -11,6 +11,7 @@ const ListOfClientsMain = () => {
             <HeaderMain />
             <FiltersClients />
             <CardOfClient />
+            <CardOfClient />
 
         </div>
 
