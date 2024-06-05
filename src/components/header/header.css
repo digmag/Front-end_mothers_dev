@@ -1,0 +1,18 @@
+.headerNavbar {
+    background-color: #D6E4FF;
+
+}
+
+.headerNavbar .navbar-brand {
+    font-weight: 600;
+    color: #185ce2;
+}
+
+.headerNavbar .navbar-brand .ychet {
+    font-weight: 600;
+    color: #d61e1e;
+}
+
+.headerNavbar .nav-link {
+    color: #90939A;
+}

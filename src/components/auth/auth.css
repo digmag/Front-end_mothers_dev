@@ -1,0 +1,60 @@
+.authForm .modal-content {
+    background-color: #D6E4FF;
+    margin-top: 10vh;
+}
+
+.authForm .modal-header {
+    display: block;
+}
+
+.authForm .modal-footer {
+    display: block;
+    position: relative;
+    flex: 1 1 auto;
+    margin-top: 100px;
+}
+
+.authForm .form-control {
+    background-color: #E4ECFC;
+    width: 90%;
+
+}
+
+.authForm .btn-primary {
+    width: 90%;
+    background-color: #376EDA;
+}
+
+.authForm .nav-link {
+    display: flexbox;
+    font-weight: 400;
+    line-height: 80%;
+    color: #90939a;
+}
+
+.goToRegistration {
+    display: flex;
+    justify-content: center;
+    color: #90939a;
+}
+
+.goToRegistration .nav-link {
+    color: #376EDA;
+    font-weight: 500;
+    margin-left: 10vw;
+}
+
+.authForm .authInput {
+    display: flex;
+    justify-content: center;
+}
+
+.authForm .modal-title {
+    color: #185ce2;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.authForm .modal-title span {
+    color: #d61e1e;
+}
