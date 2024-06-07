@@ -57,7 +57,7 @@ const RegistrMain = () => {
             </div>
             <div className='goToRegistration'>
                 <span>Уже есть аккаунт?</span>
-                <Nav.Link as={Link} to="/">Войти</Nav.Link>
+                <Nav.Link as={Link} to="/login">Войти</Nav.Link>
             </div>
         </div>
     )

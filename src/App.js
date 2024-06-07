@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import AuthMain from './components/auth/authMain';
 import HeaderMain from './components/header/headerMain';
 import RegistrMain from './components/registr/registrMain';
@@ -22,7 +22,8 @@ function App() {
         {/* <SuccessRegistr /> */}
         {/* <EditPasswordMain /> */}
         <Routes>
-          <Route path='/' Component={AuthMain} />
+          <Route path="*" element={<Navigate to='/login' />} />
+          <Route path='/login' Component={AuthMain} />
           <Route path='/registration' Component={RegistrMain} />
           <Route path='/passwordConfirm' Component={PasswordConfirmMain} />
           <Route path='/clients' Component={ListOfClientsMain} />

@@ -34,7 +34,8 @@ const PasswordConfirmMain = () => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="primary" className='mb-4'>Отправить</Button>
+                    <Button variant="primary" className='mb-3'>Отправить</Button>
+                    <Nav.Link className='mb-4' as={Link} to="/login">Вернуться на страницу авторизации</Nav.Link>
                 </Modal.Footer>
             </Modal.Dialog>
         </div>
