@@ -10,8 +10,8 @@ const ListOfClientsMain = () => {
         <div>
             <HeaderMain />
             <FiltersClients />
-            <CardOfClient />
-            <CardOfClient />
+            <CardOfClient entity='individual' />
+            <CardOfClient entity='legal' />
 
         </div>
 

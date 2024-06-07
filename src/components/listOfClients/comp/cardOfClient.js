@@ -3,11 +3,19 @@ import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 import '../listOfClients.css'
 
-const CardOfClient = () => {
+const CardOfClient = (props) => {
+    const { entity } = props;
+    let backColor;
+    if (entity === 'individual') {
+        backColor = '#FFD6D6';
+    }
+    else {
+        backColor = '#D6E4FF';
+    }
 
     return (
         <Nav.Link as={Link} to={`/clients/id/details`}>
-            <div className='mx-5 cardOfClient'>
+            <div className='mx-5 cardOfClient' style={{ background: backColor }}>
                 <div className='mt-3 ms-5 clientCardLeftBlock'>
                     <h4>Наименование полное</h4>
                     <div className='mt-5'>ИНН(504094847879)</div>
