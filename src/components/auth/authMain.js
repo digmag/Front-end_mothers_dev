@@ -24,11 +24,11 @@ const AuthMain = () => {
 
                     <Modal.Body>
                         <Form>
-                            <Form.Group className="mb-3 authInput" controlId="formBasicEmail">
+                            <Form.Group className="mb-3 authInput" controlId="authEmail">
                                 <Form.Control type="email" placeholder="Логин" />
                             </Form.Group>
 
-                            <Form.Group className="mb-3 authInput" controlId="formBasicPassword">
+                            <Form.Group className="mb-3 authInput" controlId="authPassword">
                                 <Form.Control type="password" placeholder="Пароль" />
                             </Form.Group>
 
