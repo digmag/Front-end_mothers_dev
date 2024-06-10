@@ -3,10 +3,42 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './registr.css'
+import { useDispatch } from 'react-redux';
+import { userAPI } from '../../API/userAPI';
 
 const RegistrMain = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const userRegistr = () => {
+        const email = document.getElementById('formRegistrEmail').value;
+        const password = document.getElementById('formRegistrPassword').value;
+        const surname = document.getElementById('formRegistrSurname').value;
+        const name = document.getElementById('formRegistrName').value;
+        const patronymic = document.getElementById('formRegistrPatronymic').value;
+        const idPosition = "e3c1414a-7893-44da-90c2-c9c17ac49c39";
+        const fullName = `${surname} ${name} ${patronymic}`;
+        const requestBody = {
+            "fullName": fullName,
+            "email": email,
+            "password": password,
+            "status": idPosition
+        }
+        console.log(requestBody)
+        //нужно ли тут try catch, потому что я и так же ошибки обрабатываю внутри try
+        //где хранить токен
+
+        const resp = dispatch(userAPI.registration(requestBody)
+        ).then(data => {
+            console.log("ttttttt");
+            alert("Подтвердите аккаунт на почте");
+        }).catch(error => console.log(error));
+
+
+    }
 
     return (
         <div>
@@ -51,7 +83,7 @@ const RegistrMain = () => {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" className='mb-4'>Зарегистрироваться</Button>
+                        <Button variant="primary" className='mb-4' onClick={userRegistr}>Зарегистрироваться</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>

@@ -21,7 +21,7 @@ const HeaderMain = () => {
                     </Nav>
 
                     <Nav className='mx-0'>
-                        <Nav.Link className='me-4'>Выход</Nav.Link>
+                        <Nav.Link as={Link} to="/login" className='me-4'>Выход</Nav.Link>
                     </Nav>
 
                 </Navbar.Collapse>
