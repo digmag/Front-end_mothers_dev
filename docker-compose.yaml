@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: front
     ports:
-      - '5000:5000'
+      - '5000:3000'
     networks:
       - my_network
 networks:
