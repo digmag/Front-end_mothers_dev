@@ -1,5 +1,9 @@
-const login = (body) => {
-    return dispatch => fetch('http://158.160.91.152:8081/api/account/login', {
+import { loginActionCreator } from "../reducers/user-reducer";
+
+const url = '158.160.29.93';
+
+const login = (body, navigate) => {
+    return dispatch => fetch(`http://${url}:8081/api/account/login`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -12,11 +16,16 @@ const login = (body) => {
         }
         console.log("Успешно залогинились")
         return response.json()
-    })
+    }).then(data => {
+        console.log("ttttttt");
+        localStorage.setItem("token", data.token);
+        dispatch(loginActionCreator());
+        navigate("/clients");
+    }).catch(error => console.log(error));
 }
 
 const registration = (body) => {
-    return dispatch => fetch('http://158.160.91.152:8081/api/account/registration', {
+    return dispatch => fetch(`http://${url}:8081/api/account/registration`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -33,7 +42,7 @@ const registration = (body) => {
 }
 
 const varification = (id) => {
-    return dispatch => fetch(`http://158.160.91.152:8081/api/account/verification/${id}`, {
+    return dispatch => fetch(`http://${url}:8081/api/account/verification/${id}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
@@ -48,8 +57,44 @@ const varification = (id) => {
     }).catch(error => console.log(error))
 }
 
+const recoverEmail = (body) => {
+    return dispatch => fetch(`http://${url}:8081/api/account/recover`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось отправить восстановление на емаил')
+        }
+        console.log("Успешно отправлено на емаил")
+        return response.text()
+    }).catch(error => console.log(error))
+}
+
+const recoverPassword = (body, id) => {
+    return dispatch => fetch(`http://${url}:8081/api/account/recover/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось изменить пароль')
+        }
+        console.log("Успешно изменен пароль")
+        return response.text()
+    }).catch(error => console.log(error))
+}
+
 export const userAPI = {
     login: login,
     registration: registration,
-    varification: varification
+    varification: varification,
+    recoverEmail: recoverEmail,
+    recoverPassword: recoverPassword
 }

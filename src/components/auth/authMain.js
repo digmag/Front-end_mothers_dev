@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './auth.css'
 import { useDispatch } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
-import { loginActionCreator } from '../../reducers/user-reducer';
 
 
 const AuthMain = () => {
@@ -25,23 +24,10 @@ const AuthMain = () => {
         const requestBody = {
             "email": email,
             "password": password
-            //тестовые данные, поменять url
-            // username: 'emilys',
-            // password: 'emilyspass',
-            // expiresInMins: 30
         }
         console.log(requestBody)
-        //нужно ли тут try catch, потому что я и так же ошибки обрабатываю внутри try
-        //где хранить токен
 
-        const resp = dispatch(userAPI.login(requestBody)
-        ).then(data => {
-            console.log("ttttttt");
-            localStorage.setItem("token", data.token);
-            dispatch(loginActionCreator());
-            navigate("/clients");
-        }).catch(error => console.log(error));
-
+        const resp = dispatch(userAPI.login(requestBody, navigate));
 
     }
 

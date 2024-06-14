@@ -37,7 +37,7 @@ function App() {
             <Route path='/passwordConfirm' Component={PasswordConfirmMain} />
             <Route path='/clients/id/details' Component={ClientInfoMain} />
             <Route path='/verification' Component={SuccessRegistr} />
-            <Route path='/editPassword' Component={EditPasswordMain} />
+            <Route path='/recovery/:id' Component={EditPasswordMain} />
             <Route path='/clients' Component={ListOfClientsMain} />
             <Route path='/contracts' Component={ListOfContractsMain} />
             <Route path='/completedWork' Component={ListOfCompletedWorkMain} />

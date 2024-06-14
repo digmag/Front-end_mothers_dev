@@ -5,8 +5,20 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 import './passwordConfirm.css'
+import { useDispatch } from 'react-redux';
+import { userAPI } from '../../../API/userAPI';
 
 const PasswordConfirmMain = () => {
+
+    const dispatch = useDispatch();
+
+    const sendToEmail = () => {
+        const email = document.getElementById('passwordConfirmEmail').value;
+        const requestBody = {
+            "email": email,
+        }
+        const resp = dispatch(userAPI.recoverEmail(requestBody));
+    }
 
     return (
         <div
@@ -34,7 +46,7 @@ const PasswordConfirmMain = () => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="primary" className='mb-3'>Отправить</Button>
+                    <Button variant="primary" className='mb-3' onClick={sendToEmail}>Отправить</Button>
                     <Nav.Link className='mb-4' as={Link} to="/login">Вернуться на страницу авторизации</Nav.Link>
                 </Modal.Footer>
             </Modal.Dialog>
