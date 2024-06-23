@@ -1,6 +1,6 @@
 import { loginActionCreator } from "../reducers/user-reducer";
 
-const url = '158.160.29.93';
+const url = '158.160.23.147';
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {

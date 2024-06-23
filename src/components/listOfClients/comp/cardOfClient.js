@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import '../listOfClients.css'
 
 const CardOfClient = (props) => {
-    const { entity } = props;
+    const { faceType } = props;
     let backColor;
-    if (entity === 'individual') {
+    if (faceType === 'LAW') {
         backColor = '#FFD6D6';
     }
     else {
