@@ -18,11 +18,14 @@ const AddClientModal = ({ show, handleClose }) => {
 
     useEffect(() => {
         dispatch(clientAPI.getBicId());
+        dispatch(clientAPI.getOpfId());
     }, [])
     const bicList = useSelector(state => state.clientReducer.bic);
+    const opfList = useSelector(state => state.clientReducer.opf);
     console.log("что мы смогли получить в бик ", bicList);
 
     const [bicId, setBicId] = useState('');
+    const [opfId, setOpfId] = useState('');
 
     const addClient = () => {
         const clientType = isClientType;
@@ -61,24 +64,30 @@ const AddClientModal = ({ show, handleClose }) => {
     }
 
 
-    const options = [
-        {
-            value: 'jack',
-            label: 'Jack',
-        },
-        {
-            value: 'lucy',
-            label: 'Lucy',
-        },
-        {
-            value: 'tom',
-            label: 'Tom',
-        },
-    ];
+    // const options = [
+    //     {
+    //         value: 'jack',
+    //         label: 'Jack',
+    //     },
+    //     {
+    //         value: 'lucy',
+    //         label: 'Lucy',
+    //     },
+    //     {
+    //         value: 'tom',
+    //         label: 'Tom',
+    //     },
+    // ];
 
     const getBicId = (element) => {
         console.log("aaa ", element.target.value);
         setBicId(element.target.value);
+
+    }
+
+    const getOpfId = (element) => {
+        //console.log("aaa ", element.target.value);
+        setOpfId(element.target.value);
 
     }
 
@@ -124,7 +133,12 @@ const AddClientModal = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-3" controlId="opfText">
                     <Form.Label>ОПФ</Form.Label>
-                    <Form.Control type="text" placeholder="..." />
+                    <p><input onChange={getOpfId} list="opf" /></p>
+                    <datalist id="opf">
+                        {opfList.map(element => (
+                            <option value={element.value}>{element.label}</option>
+                        ))}
+                    </datalist>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="innText">

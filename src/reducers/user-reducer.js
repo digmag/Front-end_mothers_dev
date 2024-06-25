@@ -1,6 +1,7 @@
 const LOGIN = "LOGIN";
 const IS_ADMIN = "IS_ADMIN";
 const STATUS_LIST = "STATUS_LIST";
+const ADD_STATUS = "ADD_STATUS";
 
 const initialUserState = {
     isAuth: 0,
@@ -36,7 +37,10 @@ const userReducer = (state = initialUserState, action) => {
                     label: e.status
                 })
             })
+            return newState;
 
+        case ADD_STATUS:
+            newState.statusList = [...newState.statusList, { ...action.data }];
             return newState;
 
 
@@ -55,6 +59,10 @@ export function isAdminActionCreator(data) {
 
 export function statusListActionCreator(data) {
     return { type: STATUS_LIST, data: data }
+}
+
+export function addStatusActionCreator(data) {
+    return { type: ADD_STATUS, data: data }
 }
 
 

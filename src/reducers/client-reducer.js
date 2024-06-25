@@ -1,6 +1,8 @@
 const GET_LIST_OF_CLIENTS = "GET_LIST_OF_CLIENTS";
 const GET_CLIENT_INFO = "GET_CLIENT_INFO";
 const GET_BIC = "GET_BIC";
+const CREATE_CLIENT = "CREATE_CLIENT";
+const GET_OPF = "GET_OPF";
 
 const initialClientState = {
 
@@ -18,7 +20,8 @@ const initialClientState = {
     page: 0,
     count: 0,
     clientInfo: {},
-    bic: []
+    bic: [],
+    opf: []
 
 }
 
@@ -36,6 +39,10 @@ const clientReducer = (state = initialClientState, action) => {
             newState.clientInfo = action.data;
             return newState;
 
+        case CREATE_CLIENT:
+            newState.clients = [...newState.clients, action.data];
+            return newState;
+
         case GET_BIC:
 
             const bicList = action.data;
@@ -44,6 +51,18 @@ const clientReducer = (state = initialClientState, action) => {
                 newState.bic.push({
                     value: e.code,
                     label: e.bankName
+                })
+            })
+            return newState;
+
+        case GET_OPF:
+
+            const opfList = action.data;
+            newState.opf = [];
+            opfList.forEach(e => {
+                newState.opf.push({
+                    value: e.id,
+                    label: e.name
                 })
             })
             return newState;
@@ -63,6 +82,14 @@ export function getClientInfoActionCreator(data) {
 
 export function getBicActionCreator(data) {
     return { type: GET_BIC, data: data }
+}
+
+export function createClientActionCreator(data) {
+    return { type: CREATE_CLIENT, data: data }
+}
+
+export function getOpfActionCreator(data) {
+    return { type: GET_OPF, data: data }
 }
 
 export default clientReducer;

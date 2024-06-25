@@ -1,6 +1,6 @@
-import { isAdminActionCreator, loginActionCreator, statusListActionCreator } from "../reducers/user-reducer";
+import { addStatusActionCreator, isAdminActionCreator, loginActionCreator, statusListActionCreator } from "../reducers/user-reducer";
 
-const url = '158.160.87.225';
+const url = '158.160.64.66';
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {
@@ -130,6 +130,27 @@ const isAdmin = () => {
     }).catch(error => console.log(error))
 }
 
+const addStatus = (body) => {
+    return dispatch => fetch(`http://${url}:8081/api/account/add/status`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось добавить должность')
+        }
+        console.log("Успешно добавлена должность")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(addStatusActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
 export const userAPI = {
     login: login,
     registration: registration,
@@ -137,5 +158,6 @@ export const userAPI = {
     recoverEmail: recoverEmail,
     recoverPassword: recoverPassword,
     getStatus: getStatus,
-    isAdmin: isAdmin
+    isAdmin: isAdmin,
+    addStatus: addStatus
 }
