@@ -1,6 +1,6 @@
-import { loginActionCreator } from "../reducers/user-reducer";
+import { isAdminActionCreator, loginActionCreator, statusListActionCreator } from "../reducers/user-reducer";
 
-const url = '158.160.87.248';
+const url = '158.160.64.66';
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {
@@ -103,10 +103,30 @@ const getStatus = () => {
             throw new Error('Не удалось получить должности')
         }
         console.log("Успешно получили должности")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(statusListActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const isAdmin = () => {
+    return dispatch => fetch(`http://${url}:8081/api/account/isAdmin`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не получили инфу, админ или нет')
+        }
+        console.log("Получили инфу, админ или нет")
         return response.text()
     }).then(data => {
         console.log(data);
-        //dispatch(getListOfClientsActionCreator(data));
+        dispatch(isAdminActionCreator(data));
     }).catch(error => console.log(error))
 }
 
@@ -116,5 +136,6 @@ export const userAPI = {
     varification: varification,
     recoverEmail: recoverEmail,
     recoverPassword: recoverPassword,
-    getStatus: getStatus
+    getStatus: getStatus,
+    isAdmin: isAdmin
 }

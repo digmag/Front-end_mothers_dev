@@ -18,7 +18,7 @@ const AuthMain = () => {
         localStorage.clear();
     }, [])
 
-    const userLogin = () => {
+    const userLogin = async () => {
         const email = document.getElementById('authEmail').value;
         const password = document.getElementById('authPassword').value;
         const requestBody = {
@@ -27,7 +27,8 @@ const AuthMain = () => {
         }
         console.log(requestBody)
 
-        const resp = dispatch(userAPI.login(requestBody, navigate));
+        await dispatch(userAPI.login(requestBody, navigate));
+        dispatch(userAPI.isAdmin());
 
     }
 

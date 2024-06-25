@@ -1,4 +1,6 @@
 const GET_LIST_OF_CLIENTS = "GET_LIST_OF_CLIENTS";
+const GET_CLIENT_INFO = "GET_CLIENT_INFO";
+const GET_BIC = "GET_BIC";
 
 const initialClientState = {
 
@@ -14,7 +16,9 @@ const initialClientState = {
         }
     ],
     page: 0,
-    count: 0
+    count: 0,
+    clientInfo: {},
+    bic: []
 
 }
 
@@ -28,6 +32,22 @@ const clientReducer = (state = initialClientState, action) => {
             console.log("вывод из редюсера ");
             return newState;
 
+        case GET_CLIENT_INFO:
+            newState.clientInfo = action.data;
+            return newState;
+
+        case GET_BIC:
+
+            const bicList = action.data;
+            newState.bic = [];
+            bicList.forEach(e => {
+                newState.bic.push({
+                    value: e.code,
+                    label: e.bankName
+                })
+            })
+            return newState;
+
         default:
             return newState;
     }
@@ -35,6 +55,14 @@ const clientReducer = (state = initialClientState, action) => {
 
 export function getListOfClientsActionCreator(payload) {
     return { type: GET_LIST_OF_CLIENTS, payload: payload }
+}
+
+export function getClientInfoActionCreator(data) {
+    return { type: GET_CLIENT_INFO, data: data }
+}
+
+export function getBicActionCreator(data) {
+    return { type: GET_BIC, data: data }
 }
 
 export default clientReducer;

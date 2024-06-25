@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clientAPI } from '../../../API/clientAPI';
 
 
@@ -16,9 +16,17 @@ const AddClientModal = ({ show, handleClose }) => {
         setIsClientType(event.target.checked);
     }// Устанавливаем состояние в соответствии с выбором чекбокса
 
+    useEffect(() => {
+        dispatch(clientAPI.getBicId());
+    }, [])
+    const bicList = useSelector(state => state.clientReducer.bic);
+    console.log("что мы смогли получить в бик ", bicList);
+
+    const [bicId, setBicId] = useState('');
+
     const addClient = () => {
         const clientType = isClientType;
-        const bicId = 396186;
+        const bicIdd = bicId;
         const inn = document.getElementById('innText').value;
         const opf = document.getElementById('opfText').value;
         const cpp = document.getElementById('cppText').value;
@@ -29,10 +37,10 @@ const AddClientModal = ({ show, handleClose }) => {
         const address = document.getElementById('addressText').value;
         const phone = document.getElementById('phoneText').value;
         const email = document.getElementById('emailText').value;
-        const comment = "000";
+        const comment = document.getElementById('commentText').value;
         const requestBody = {
             "clientType": clientType,
-            "bicId": bicId,
+            "bicId": bicIdd,
             "inn": inn,
             "opf": opf,
             "cpp": cpp,
@@ -49,6 +57,28 @@ const AddClientModal = ({ show, handleClose }) => {
 
         const resp = dispatch(clientAPI.createClient(requestBody));
         handleClose();
+
+    }
+
+
+    const options = [
+        {
+            value: 'jack',
+            label: 'Jack',
+        },
+        {
+            value: 'lucy',
+            label: 'Lucy',
+        },
+        {
+            value: 'tom',
+            label: 'Tom',
+        },
+    ];
+
+    const getBicId = (element) => {
+        console.log("aaa ", element.target.value);
+        setBicId(element.target.value);
 
     }
 
@@ -74,6 +104,22 @@ const AddClientModal = ({ show, handleClose }) => {
                 <Form.Group className="mb-3" controlId="shortNameText">
                     <Form.Label>Наименование краткое</Form.Label>
                     <Form.Control type="text" placeholder="..." />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="bicIdText">
+                    <Form.Label>БИК(банковский идентификационный код)</Form.Label>
+                    <p><input onChange={getBicId} list="bic" /></p>
+                    <datalist id="bic">
+                        {bicList.map(element => (
+                            <option value={element.value}>{element.label}</option>
+                        ))}
+                        {/* <option>Аперитивы</option>
+                        <option>Горячие</option>
+                        <option>Десертные</option>
+                        <option>Диджестивы</option>
+                        <option>Молочные</option>
+                        <option>Слоистые</option> */}
+                    </datalist>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="opfText">
@@ -113,6 +159,11 @@ const AddClientModal = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-3" controlId="ceoStatusText">
                     <Form.Label>Должность руководителя</Form.Label>
+                    <Form.Control type="text" placeholder="..." />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="commentText">
+                    <Form.Label>Комментарий</Form.Label>
                     <Form.Control type="text" placeholder="..." />
                 </Form.Group>
                 <Form.Check className='mt-3'

@@ -13,6 +13,7 @@ import ListOfContractsMain from './components/listOfContracts/listOfContractsMai
 import ListOfManualsMain from './components/listOfManuals/listOfManualsMain';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import AdminPanelMain from './components/adminPanel/adminPanelMain';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           {/* <ListOfCompletedWorkMain />
         <ListOfContractsMain />
         <ListOfManualsMain /> */}
+          {/* <AdminPanelMain /> */}
           <Routes>
             <Route path="*" element={<Navigate to='/login' />} />
             <Route path='/login' Component={AuthMain} />
@@ -42,6 +44,7 @@ function App() {
             <Route path='/contracts' Component={ListOfContractsMain} />
             <Route path='/completedWork' Component={ListOfCompletedWorkMain} />
             <Route path='/manuals' Component={ListOfManualsMain} />
+            <Route path='/admin' Component={AdminPanelMain} />
           </Routes>
         </div>
       </BrowserRouter>

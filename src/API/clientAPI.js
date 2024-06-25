@@ -1,6 +1,6 @@
-import { getListOfClientsActionCreator } from "../reducers/client-reducer";
+import { getBicActionCreator, getClientInfoActionCreator, getListOfClientsActionCreator } from "../reducers/client-reducer";
 
-const url = '158.160.87.248';
+const url = '158.160.64.66';
 
 const getListOfClients = (page) => {
     return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}`, {
@@ -38,6 +38,9 @@ const createClient = (body) => {
         console.log("Успешно создан клиент")
         alert("Клиент был успешно создан");
         return response.json()
+    }).then(data => {
+        console.log(data);
+        //dispatch(getClientInfoActionCreator(data));
     }).catch(error => console.log(error));
 }
 
@@ -57,13 +60,34 @@ const getClientInfo = (id) => {
         return response.json()
     }).then(data => {
         console.log(data);
-        //dispatch(getListOfClientsActionCreator(data));
+        dispatch(getClientInfoActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const getBicId = () => {
+    return dispatch => fetch(`http://${url}:8083/api/client/bic`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список бик')
+        }
+        console.log("Успешно получен список бик")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(getBicActionCreator(data));
     }).catch(error => console.log(error))
 }
 
 export const clientAPI = {
     getListOfClients: getListOfClients,
     createClient: createClient,
-    getClientInfo: getClientInfo
+    getClientInfo: getClientInfo,
+    getBicId: getBicId
 
 }

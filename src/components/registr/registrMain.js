@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import { Link, useNavigate } from 'react-router-dom';
 import './registr.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
 import { Select } from 'antd';
 
@@ -15,13 +15,30 @@ const RegistrMain = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
+
+    useEffect(() => {
+        dispatch(userAPI.getStatus());
+    }, [])
+    const statusList = useSelector(state => state.userReducer.statusList);
+    console.log("получили список из стейта ", statusList);
+
+    const [statusId, setStatusId] = useState('');
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+        setStatusId(value);
+    };
+    // const onSearch = (value) => {
+    //     console.log('search:', value);
+    // };
+
     const userRegistr = () => {
         const email = document.getElementById('formRegistrEmail').value;
         const password = document.getElementById('formRegistrPassword').value;
         const surname = document.getElementById('formRegistrSurname').value;
         const name = document.getElementById('formRegistrName').value;
         const patronymic = document.getElementById('formRegistrPatronymic').value;
-        const idPosition = "e3c1414a-7893-44da-90c2-c9c17ac49c39";
+        const idPosition = statusId;
         const fullName = `${surname} ${name} ${patronymic}`;
         const requestBody = {
             "fullName": fullName,
@@ -41,32 +58,6 @@ const RegistrMain = () => {
 
 
     }
-
-    useEffect(() => {
-        dispatch(userAPI.getStatus());
-    }, [])
-
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
-    const onSearch = (value) => {
-        console.log('search:', value);
-    };
-
-    const options = [
-        {
-            value: 'jack',
-            label: 'Jack',
-        },
-        {
-            value: 'lucy',
-            label: 'Lucy',
-        },
-        {
-            value: 'tom',
-            label: 'Tom',
-        },
-    ];
 
     return (
         <div>
@@ -100,8 +91,8 @@ const RegistrMain = () => {
                                     placeholder="Должность"
                                     optionFilterProp="label"
                                     onChange={onChange}
-                                    onSearch={onSearch}
-                                    options={options}
+                                    // onSearch={onSearch}
+                                    options={statusList}
                                 />
 
 

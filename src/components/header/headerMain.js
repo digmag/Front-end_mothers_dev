@@ -4,8 +4,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './header.css'
+import { useSelector } from 'react-redux';
 
 const HeaderMain = () => {
+
+    const isAdmin = useSelector(state => state.userReducer.isAdmin);
+    console.log("Админ или нет ", isAdmin);
 
     return (
         <Navbar expand="lg" className="headerNavbar" >
@@ -21,6 +25,7 @@ const HeaderMain = () => {
                     </Nav>
 
                     <Nav className='mx-0'>
+                        {isAdmin && <Nav.Link as={Link} to="/admin" className='me-4'>Админ панель</Nav.Link>}
                         <Nav.Link as={Link} to="/login" className='me-4'>Выход</Nav.Link>
                     </Nav>
 
