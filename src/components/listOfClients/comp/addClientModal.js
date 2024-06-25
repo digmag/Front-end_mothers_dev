@@ -10,11 +10,18 @@ const AddClientModal = ({ show, handleClose }) => {
 
     const dispatch = useDispatch();
 
+    const [isClientType, setIsClientType] = useState(false); // Состояние для отслеживания выбора чекбокса 
+
+    const handleCheckboxChange = (event) => {
+        setIsClientType(event.target.checked);
+    }// Устанавливаем состояние в соответствии с выбором чекбокса
+
     const addClient = () => {
-        const clientType = false;
+        const clientType = isClientType;
         const bicId = 396186;
         const inn = document.getElementById('innText').value;
         const opf = document.getElementById('opfText').value;
+        const cpp = document.getElementById('cppText').value;
         const fullName = document.getElementById('fullNameText').value;
         const shortName = document.getElementById('shortNameText').value;
         const ceoFullName = document.getElementById('ceoFullNameText').value;
@@ -28,6 +35,7 @@ const AddClientModal = ({ show, handleClose }) => {
             "bicId": bicId,
             "inn": inn,
             "opf": opf,
+            "cpp": cpp,
             "fullName": fullName,
             "shortName": shortName,
             "ceoFullName": ceoFullName,
@@ -40,6 +48,7 @@ const AddClientModal = ({ show, handleClose }) => {
         console.log(requestBody)
 
         const resp = dispatch(clientAPI.createClient(requestBody));
+        handleClose();
 
     }
 
@@ -77,7 +86,7 @@ const AddClientModal = ({ show, handleClose }) => {
                     <Form.Control type="text" placeholder="..." />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" controlId="cppText">
                     <Form.Label>КПП</Form.Label>
                     <Form.Control type="text" placeholder="..." />
                 </Form.Group>
@@ -106,7 +115,14 @@ const AddClientModal = ({ show, handleClose }) => {
                     <Form.Label>Должность руководителя</Form.Label>
                     <Form.Control type="text" placeholder="..." />
                 </Form.Group>
+                <Form.Check className='mt-3'
+                    type='checkbox'
+                    id="clientTypeText"
+                    label="Юридическое лицо"
+                    checked={isClientType} // Устанавливаем состояние чекбокса 
+                    onChange={handleCheckboxChange} // Обработчик изменения состояния чекбокса 
 
+                />
 
 
 

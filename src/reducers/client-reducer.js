@@ -14,7 +14,7 @@ const initialClientState = {
         }
     ],
     page: 0,
-    count: 1
+    count: 0
 
 }
 
@@ -22,8 +22,10 @@ const clientReducer = (state = initialClientState, action) => {
     const newState = { ...state };
     switch (action.type) {
         case GET_LIST_OF_CLIENTS:
-            newState = { ...action.payload }
-            console.log(newState);
+            newState.clients = action.payload.clients;
+            newState.page = action.payload.page;
+            newState.count = action.payload.count;
+            console.log("вывод из редюсера ");
             return newState;
 
         default:
@@ -31,7 +33,7 @@ const clientReducer = (state = initialClientState, action) => {
     }
 }
 
-export function getListOfClients(payload) {
+export function getListOfClientsActionCreator(payload) {
     return { type: GET_LIST_OF_CLIENTS, payload: payload }
 }
 

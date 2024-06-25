@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../listOfClients.css'
 
 const CardOfClient = (props) => {
-    const { faceType } = props;
+    const { id, faceType, fullName, inn, ceoFullName, phone, email } = props;
     let backColor;
     if (faceType === 'LAW') {
         backColor = '#FFD6D6';
@@ -14,16 +14,16 @@ const CardOfClient = (props) => {
     }
 
     return (
-        <Nav.Link as={Link} to={`/clients/id/details`}>
+        <Nav.Link as={Link} to={`/clients/${id}/details`}>
             <div className='mx-5 cardOfClient' style={{ background: backColor }}>
                 <div className='mt-3 ms-5 clientCardLeftBlock'>
-                    <h4>Наименование полное</h4>
-                    <div className='mt-5'>ИНН(504094847879)</div>
+                    <h4>{fullName}</h4>
+                    <div className='mt-5'>{inn}</div>
                 </div>
                 <div className='mt-3 me-5 clientCardRightBlock'>
-                    <div>Екатерина столбова</div>
-                    <div className='mt-3'>+79138738565</div>
-                    <div className='mt-3'>katrusikSt@yandex.ru</div>
+                    <div>{ceoFullName}</div>
+                    <div className='mt-3'>{phone}</div>
+                    <div className='mt-3'>{email}</div>
                 </div>
 
             </div>

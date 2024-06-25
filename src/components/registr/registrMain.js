@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './registr.css'
 import { useDispatch } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
+import { Select } from 'antd';
+
 
 const RegistrMain = () => {
 
@@ -40,6 +42,32 @@ const RegistrMain = () => {
 
     }
 
+    useEffect(() => {
+        dispatch(userAPI.getStatus());
+    }, [])
+
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+    const onSearch = (value) => {
+        console.log('search:', value);
+    };
+
+    const options = [
+        {
+            value: 'jack',
+            label: 'Jack',
+        },
+        {
+            value: 'lucy',
+            label: 'Lucy',
+        },
+        {
+            value: 'tom',
+            label: 'Tom',
+        },
+    ];
+
     return (
         <div>
             <div
@@ -68,7 +96,15 @@ const RegistrMain = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrPosition">
-                                <Form.Control type="text" placeholder="Должность" />
+                                <Select style={{ width: "90%", border: "#000000" }} showSearch
+                                    placeholder="Должность"
+                                    optionFilterProp="label"
+                                    onChange={onChange}
+                                    onSearch={onSearch}
+                                    options={options}
+                                />
+
+
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrEmail">
@@ -91,7 +127,7 @@ const RegistrMain = () => {
                 <span>Уже есть аккаунт?</span>
                 <Nav.Link as={Link} to="/login">Войти</Nav.Link>
             </div>
-        </div>
+        </div >
     )
 
 }

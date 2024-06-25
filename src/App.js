@@ -35,7 +35,7 @@ function App() {
             <Route path='/login' Component={AuthMain} />
             <Route path='/registration' Component={RegistrMain} />
             <Route path='/passwordConfirm' Component={PasswordConfirmMain} />
-            <Route path='/clients/id/details' Component={ClientInfoMain} />
+            <Route path='/clients/:id/details' Component={ClientInfoMain} />
             <Route path='/verification' Component={SuccessRegistr} />
             <Route path='/recovery/:id' Component={EditPasswordMain} />
             <Route path='/clients' Component={ListOfClientsMain} />

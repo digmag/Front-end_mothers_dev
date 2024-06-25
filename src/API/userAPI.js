@@ -1,6 +1,6 @@
 import { loginActionCreator } from "../reducers/user-reducer";
 
-const url = '158.160.23.147';
+const url = '158.160.87.248';
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {
@@ -91,10 +91,30 @@ const recoverPassword = (body, id) => {
     }).catch(error => console.log(error))
 }
 
+const getStatus = () => {
+    return dispatch => fetch(`http://${url}:8081/api/account/status`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить должности')
+        }
+        console.log("Успешно получили должности")
+        return response.text()
+    }).then(data => {
+        console.log(data);
+        //dispatch(getListOfClientsActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
 export const userAPI = {
     login: login,
     registration: registration,
     varification: varification,
     recoverEmail: recoverEmail,
-    recoverPassword: recoverPassword
+    recoverPassword: recoverPassword,
+    getStatus: getStatus
 }
