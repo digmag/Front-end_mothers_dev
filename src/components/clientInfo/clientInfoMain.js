@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 import './clientInfo.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { clientAPI } from '../../API/clientAPI';
+import Button from 'react-bootstrap/Button';
+import EditClientModal from './comp/editClientModal';
+import DeleteClientModal from './comp/deleteClientModal';
 
 const ClientInfoMain = () => {
 
@@ -12,6 +15,7 @@ const ClientInfoMain = () => {
 
     useEffect(() => {
         dispatch(clientAPI.getClientInfo(id));
+        // dispatch(clientAPI.getConcretOpfId(faceType));
     }, [])
 
     const { faceType, requisites, inn, opf, cpp, fullName, shortName, ceoFullName, ceoStatus, address, phone, email, comment } = useSelector(state => state.clientReducer.clientInfo);
@@ -26,6 +30,18 @@ const ClientInfoMain = () => {
         face = "Физическое лицо";
         backColor = '#D6E4FF';
     }
+
+    const isAdmin = useSelector(state => state.userReducer.isAdmin);
+
+    //модальное окно добавления клиента
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    //модальное окно удаления клиента
+    const [showDel, setShowDel] = useState(false);
+    const handleCloseDel = () => setShowDel(false);
+    const handleShowDel = () => setShowDel(true);
 
 
     return (
@@ -59,6 +75,20 @@ const ClientInfoMain = () => {
                     </div>
                 ))}
             </div>
+            <div className='ms-5 mt-4 btnEditClient'>
+                <Button variant="secondary" onClick={handleShow} >Редактировать клиента</Button>
+                {isAdmin && <EditClientModal show={show} handleClose={handleClose} id={id} clientType={faceType} fullName={fullName}
+                    shortName={shortName} inn={inn} opf={opf} cpp={cpp} ceoFullName={ceoFullName}
+                    ceoStatus={ceoStatus} email={email} phone={phone} address={address}
+                    comment={comment} requisitesFromRequest={requisites} />}
+
+                {isAdmin && <Button variant="danger" className='ms-4' onClick={handleShowDel}>Удалить клиента</Button>}
+                <DeleteClientModal show={showDel} handleClose={handleCloseDel} />
+
+
+            </div >
+
+
 
         </div>
 
