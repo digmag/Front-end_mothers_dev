@@ -40,7 +40,8 @@ const initialContractState = {
     count: 0
 }
 
-const GET_LIST_OF_CONTRACTS = "GET_LIST_OF_CONTRACTS"
+const GET_LIST_OF_CONTRACTS = "GET_LIST_OF_CONTRACTS";
+const CREATE_CONTRACT = "CREATE_CONTRACT";
 
 const contractReducer = (state = initialContractState, action) => {
     const newState = { ...state };
@@ -48,6 +49,9 @@ const contractReducer = (state = initialContractState, action) => {
         case GET_LIST_OF_CONTRACTS:
             newState.contracts = action.contracts;
             return newState
+        case CREATE_CONTRACT:
+            newState.contracts = [...newState.contracts, action.contract];
+            return newState;
         default:
             return newState;
     }
@@ -55,6 +59,10 @@ const contractReducer = (state = initialContractState, action) => {
 
 export function getListOfContractsActionCreator(contracts) {
     return { type: GET_LIST_OF_CONTRACTS, contracts: contracts }
+}
+
+export function createContractActionCreator(contract){
+    return{type: CREATE_CONTRACT, contract: contract}
 }
 
 export default contractReducer;
