@@ -41,6 +41,41 @@ const initialContractState = {
     info:{
         client: "",
         
+    },
+    contract:{
+        client:{
+            ceoFullName: "",
+            email:"",
+            faceType:"",
+            fullName:"",
+            id:"",
+            inn:"",
+            phone:"",
+        },
+        date:"",
+        employee:{
+            admin: false,
+            email:"",
+            fullName:"",
+            id:"",
+            status:"",
+            verification:"",
+        },
+        end: false,
+        endDoingDate: "",
+        endLifeDate: "",
+        id: "",
+        number: "",
+        priceList:[{
+            count: 0,
+            id:"",
+            name:"",
+            price:"",
+            sum:""
+        }],
+        startDate:"",
+        subject:"",
+        volume:false
     }
 }
 
@@ -61,7 +96,7 @@ const contractReducer = (state = initialContractState, action) => {
         case DELETE:
             newState.contracts = newState.contracts.filter(obj => obj.id != action.contract);
         case CONCRETE:
-            newState.contracts = action.data
+            newState.contract = {...action.data}
         default:
             return newState;
     }

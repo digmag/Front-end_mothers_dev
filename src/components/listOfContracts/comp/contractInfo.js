@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clientAPI } from '../../../API/clientAPI';
 import { contractAPI } from '../../../API/contractAPI';
 import useSelection from 'antd/es/table/hooks/useSelection';
+import PirceListContract from './priceListContract';
 
 const ContractInfoMain = () => {
 
@@ -13,18 +14,16 @@ const ContractInfoMain = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(contractAPI.getListOfContracts());
+        dispatch(contractAPI.getConcreteContract(id));
     }, [])
-    const contracts = useSelector(state=>state.contractReducer.contracts)
-    const concrete = contracts.find(concrete => concrete.id === id)
-    console.log(concrete)
+    const concrete = useSelector(state=>state.contractReducer.contract)
 
     return (
         <div>
             <HeaderMain />
             <div className='mt-4 mx-5 clientInfoBlock'>
                 <div>
-                    <h4>{concrete}</h4>
+                    <h4>{concrete.number}</h4>
                     <div>Наименование краткое</div>
                     <div>ИНН</div>
                     <div>КПП</div>
@@ -34,6 +33,15 @@ const ContractInfoMain = () => {
 
 
             </div>
+
+            {concrete.priceList.map(el => (
+                <PirceListContract key={el.id} name={el.name}
+                count={el.count}
+                done={el.done}
+                price={el.price}
+                sum={el.sum}
+                />
+            ))}
 
         </div>
 
