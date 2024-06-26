@@ -3,7 +3,9 @@ import magn from '../images/magnifier.svg'
 import f from '../images/Rectangle132.svg'
 import s from '../images/Rectangle133.svg'
 import t from '../images/Rectangle139.svg'
-import React, {useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import {clientAPI} from '../../../API/clientAPI'
 
 function Filters(){
 
@@ -18,6 +20,68 @@ function Filters(){
       setIsModalOpen(false);
     };
 
+    const onChangeFirst = (checked) => {
+        setIsEnd(checked);
+    };
+    const [isEnd, setIsEnd] = useState('');
+
+    const onChangeSecond = (checked) => {
+        setVolume(checked);
+    };
+    const [volume, setVolume] = useState('');
+    const dispatch = useDispatch();    
+    console.log('123')
+    const [localClients, setLocalClients] = useState([]);
+
+    const clients = useSelector(state=>state.clientReducer.clients);
+    console.log(clients)
+    useEffect(() => {
+        if (clients[0].id === '') {
+          dispatch(clientAPI.getListOfClients(0));
+        }
+      }, [dispatch, clients.id]);    
+
+    
+    useEffect(() => {
+    if (localClients.length === 0 && clients[0].id != '') {
+        setLocalClients(clients);
+    }
+    }, [clients, localClients.length]); 
+
+    const listClient = [];
+    localClients.forEach(element=>{
+        listClient.push({value: element.id, label: element.ceoFullName})
+    })
+    const [clientId, setClientId] = useState('')
+    const handleChange = useCallback(async(value) => {
+        setClientId(value);
+        await dispatch(clientAPI.getRequisites(value));
+      }, [dispatch]);
+
+    const req = useSelector(state=>state.clientReducer.requisites)
+    console.log(req);
+    const listReq = [];
+    req.forEach(element=>{
+        listReq.push({value: element.id, label: element.requisite})
+    })
+
+
+    const addContract = () => {
+        const requestBody = {
+            number: document.querySelector('#number').value,
+            clientId: clientId,
+            bankCode: clientId,
+            volume: volume,
+            price: document.querySelector('#price').value,
+            startDate: document.querySelector('#startDate').value,
+            endDoingDate: document.querySelector('#endDoingDate').value,
+            endLifeDate: document.querySelector('#endLifeDate').value,
+            subject: document.querySelector('#subject').value,
+            // employeeId: document.getElementById('#employeeId').value,
+            isEnd: isEnd,
+        }
+        console.log(requestBody);
+    }
 
     return(
         <div>
@@ -65,50 +129,61 @@ function Filters(){
                 </Col>
             </Row>
 
-            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} style={{minWidth:'80vw'}}>
+            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} style={{minWidth:'80vw'}} footer={[<Button type='primary' style={{backgroundColor:'#376EDA'}} onClick={addContract}>Создать договор</Button>]}>
                 <h1>Создание договора</h1>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{width:'40%'}}>
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Номер договора</Form.Item>
                         <Input id='number'/>
 
-                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Тема</Form.Item>
+                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Максимальная цена</Form.Item>
+                        <Input id='price'/>
+
+                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Объект договора</Form.Item>
                         <Input id='subject'/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Клиент</Form.Item>
-                        <Select id='client'/>
+                        <Select id='client' style={{width:'100%', backgroundColor:'#ffffff'}} options={listClient} onChange={handleChange}/>
 
-                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Заказчик</Form.Item>
-                        <Select id='employee'/>
+                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Банковские реквизиты клиента</Form.Item>
+                        <Select id='bic' style={{width:'100%'}} options={listReq}/>
 
-                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>БИК</Form.Item>
-                        <Select id='bic'/>
+                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Ответственный</Form.Item>
+                        <Select id='employee' style={{width:'100%'}} options={[
+                            { value: 'jack', label: 'Jack' },
+                            { value: 'lucy', label: 'Lucy' },
+                            { value: 'Yiminghe', label: 'yiminghe' },
+                        ]}/>
 
-                        <Row style={{display:'flex', justifyContent:'center'}}>
-                            <Col><Form.Item name="username" style={{margin:'0 0 0 0', width:'40vw', color:'#adadc2'}}>volume</Form.Item></Col>
-                            <Col><Switch id='volume'/></Col>
-                            
+                        <Row style={{display:'flex', justifyContent:'start', margin:'1vh 0 0 0', height:'4vh'}}>
+                            <Col span={2}><Form.Item name="username" style={{width:'40vw', color:'#adadc2'}}>Объем</Form.Item></Col>
+                            <Col span={2} style={{margin:'1% 0 0 1vw'}}><Switch id='volume' onChange={onChangeSecond}/></Col>
                         </Row>
                         
-
-                        <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Статус закрытия</Form.Item>
-                        <span style={{margin:'0 1vw 0 0 0'}}>не закрыт</span>
-                        <Switch id='isEnd'/>
-                        <span>закрыт</span>
+                        <Row>
+                            <Col span={6}><Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Статус закрытия</Form.Item></Col>
+                            <Col span={10} style={{margin:'1% 0 0 0', color:'#adadc2'}}>
+                                <Row>
+                                    <span>не закрыт</span>
+                                    <Switch id='isEnd' style={{margin:'0 0 0 3%'}} onChange={onChangeFirst}/>
+                                    <span style={{margin:'0 0 0 3%'}}>закрыт</span>
+                                </Row>
+                            </Col>
+                        </Row>
+                        
                     </div>
                     <div style={{width:'40%', display:'flex', justifyContent:'flex-start', flexDirection:'column', alignItems:'baseline'}}>
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Дата вступления в силу</Form.Item>
-                        <DatePicker id='startDate'/>
+                        <DatePicker id='startDate' style={{width:'20vw'}}/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Дата окончания</Form.Item>
-                        <DatePicker id='endDoingDate'/>
+                        <DatePicker id='endDoingDate' style={{width:'20vw'}}/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Еще какая-то дата</Form.Item>
-                        <DatePicker id='endLifeDate'/>
+                        <DatePicker id='endLifeDate' style={{width:'20vw'}}/>
                     </div>
                 </div>
             </Modal>
-
         </div>
     )
 }

@@ -1,10 +1,10 @@
-import { getListOfClientsActionCreator } from "../reducers/client-reducer";
+import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator } from "../reducers/client-reducer";
 
 const url = '84.201.140.78';
 
 const getListOfClients = (page) => {
     return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}`, {
-        method: "POST",
+        method: "GET",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -38,6 +38,9 @@ const createClient = (body) => {
         console.log("Успешно создан клиент")
         alert("Клиент был успешно создан");
         return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(createClientActionCreator(data));
     }).catch(error => console.log(error));
 }
 
@@ -57,13 +60,98 @@ const getClientInfo = (id) => {
         return response.json()
     }).then(data => {
         console.log(data);
-        //dispatch(getListOfClientsActionCreator(data));
+        dispatch(getClientInfoActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const getBicId = () => {
+    return dispatch => fetch(`http://${url}:8083/api/client/bic`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список бик')
+        }
+        console.log("Успешно получен список бик")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(getBicActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const getOpfId = () => {
+    return dispatch => fetch(`http://${url}:8083/api/client/opf`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список опф')
+        }
+        console.log("Успешно получен список опф")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(getOpfActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const addOpf = (body) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/opf`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось создать опф')
+        }
+        console.log("Успешно создан опф")
+        alert("ОПФ была успешно создана");
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        //dispatch(createClientActionCreator(data));
+    }).catch(error => console.log(error));
+}
+
+const getRequisites = (id) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/requisits/${id}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список банковских реквизитов клиента')
+        }
+        console.log("Успешно получен список банковских реквизитов клиента")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(getRequisitesActionCreator(data));
     }).catch(error => console.log(error))
 }
 
 export const clientAPI = {
     getListOfClients: getListOfClients,
     createClient: createClient,
-    getClientInfo: getClientInfo
-
+    getClientInfo: getClientInfo,
+    getBicId: getBicId,
+    getOpfId: getOpfId,
+    addOpf: addOpf,
+    getRequisites: getRequisites
 }
