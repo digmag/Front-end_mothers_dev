@@ -1,6 +1,6 @@
 import { getListOfContractsActionCreator } from "../reducers/contract-reducer";
 
-const url = '158.160.64.66';
+const url = '84.201.140.78';
 
 const getListOfContracts = () => {
     return dispatch => fetch(`http://${url}:8083/api/document/contract`, {

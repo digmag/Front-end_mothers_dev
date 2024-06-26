@@ -25,7 +25,6 @@ const AuthMain = () => {
             "email": email,
             "password": password
         }
-        console.log(requestBody)
 
         await dispatch(userAPI.login(requestBody, navigate));
         dispatch(userAPI.isAdmin());

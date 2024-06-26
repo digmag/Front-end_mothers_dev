@@ -1,6 +1,6 @@
 import { addStatusActionCreator, isAdminActionCreator, loginActionCreator, statusListActionCreator } from "../reducers/user-reducer";
 
-const url = '158.160.64.66';
+const url = '84.201.140.78';
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {
@@ -151,6 +151,24 @@ const addStatus = (body) => {
     }).catch(error => console.log(error))
 }
 
+const editStatus = (body, id) => {
+    return dispatch => fetch(`http://${url}:8081/api/account/add/status/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось изменить должность')
+        }
+        console.log("Успешно изменена должность")
+        return response.text()
+    }).catch(error => console.log(error))
+}
+
 export const userAPI = {
     login: login,
     registration: registration,
@@ -159,5 +177,6 @@ export const userAPI = {
     recoverPassword: recoverPassword,
     getStatus: getStatus,
     isAdmin: isAdmin,
-    addStatus: addStatus
+    addStatus: addStatus,
+    editStatus: editStatus
 }

@@ -12,7 +12,9 @@ const ListOfClientsMain = () => {
         dispatch(clientAPI.getListOfClients(0));
     }, [])
     const clients = useSelector(state => state.clientReducer);
-    console.log("Получили клиентов ", clients);
+
+
+
 
     return (
         <div>

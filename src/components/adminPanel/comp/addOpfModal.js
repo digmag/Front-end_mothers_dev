@@ -7,22 +7,22 @@ import { clientAPI } from '../../../API/clientAPI';
 import { userAPI } from '../../../API/userAPI';
 
 
-const AddStatusModal = ({ show, handleClose }) => {
+const AddOpfModal = ({ show, handleClose }) => {
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    const addStatus = async () => {
-        const status = document.getElementById('statusAddText').value;
+    // const addStatus = async () => {
+    //     const status = document.getElementById('statusAddText').value;
 
-        const requestBody = {
-            "name": status
-        }
+    //     const requestBody = {
+    //         "name": status
+    //     }
 
-        await dispatch(userAPI.addStatus(requestBody));
-        dispatch(userAPI.getStatus());
-        handleClose();
+    //     await dispatch(userAPI.addStatus(requestBody));
+    //     dispatch(userAPI.getStatus());
+    //     handleClose();
 
-    }
+    // }
 
     return (
         <Modal
@@ -33,7 +33,7 @@ const AddStatusModal = ({ show, handleClose }) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавление должности
+                    Добавление ОПФ
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -46,7 +46,7 @@ const AddStatusModal = ({ show, handleClose }) => {
                 {/* <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button> */}
-                <Button variant="primary" onClick={addStatus}>
+                <Button variant="primary" onClick={handleClose}>
                     Сохранить
                 </Button>
             </Modal.Footer>
@@ -54,4 +54,4 @@ const AddStatusModal = ({ show, handleClose }) => {
     )
 }
 
-export default AddStatusModal;
+export default AddOpfModal;

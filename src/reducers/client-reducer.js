@@ -19,7 +19,29 @@ const initialClientState = {
     ],
     page: 0,
     count: 0,
-    clientInfo: {},
+    clientInfo: {
+        address: "",
+        ceoFullName: "",
+        ceoStatus: "",
+        comment: "",
+        cpp: "",
+        email: "",
+        faceType: "",
+        fullName: "",
+        id: "",
+        inn: "",
+        opf: "",
+        phone: "",
+        shortName: "",
+        requisites: [
+            {
+                bic: "",
+                id: "",
+                requisite: ""
+            }
+        ]
+
+    },
     bic: [],
     opf: []
 

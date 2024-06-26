@@ -21,11 +21,10 @@ const RegistrMain = () => {
         dispatch(userAPI.getStatus());
     }, [])
     const statusList = useSelector(state => state.userReducer.statusList);
-    console.log("получили список из стейта ", statusList);
 
     const [statusId, setStatusId] = useState('');
     const onChange = (value) => {
-        console.log(`selected ${value}`);
+        // console.log(`selected ${value}`);
         setStatusId(value);
     };
     // const onSearch = (value) => {
@@ -46,13 +45,12 @@ const RegistrMain = () => {
             "password": password,
             "status": idPosition
         }
-        console.log(requestBody)
+
         //нужно ли тут try catch, потому что я и так же ошибки обрабатываю внутри try
         //где хранить токен
 
         const resp = dispatch(userAPI.registration(requestBody)
         ).then(data => {
-            console.log("ttttttt");
             alert("Подтвердите аккаунт на почте");
         }).catch(error => console.log(error));
 

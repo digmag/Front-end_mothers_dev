@@ -7,18 +7,28 @@ import { clientAPI } from '../../../API/clientAPI';
 import { userAPI } from '../../../API/userAPI';
 
 
-const AddStatusModal = ({ show, handleClose }) => {
+const EditStatusModal = ({ show, handleClose, id, label }) => {
 
     const dispatch = useDispatch();
 
-    const addStatus = async () => {
-        const status = document.getElementById('statusAddText').value;
+    const [newNameOfStatus, setNewNameOfStatus] = useState(label);
+
+    useEffect(() => {
+        setNewNameOfStatus(label);
+    }, [label])
+
+    const changeStatus = (element) => {
+        setNewNameOfStatus(element.target.value);
+    }
+
+    const editStatus = async () => {
+        const status = newNameOfStatus;
 
         const requestBody = {
             "name": status
         }
 
-        await dispatch(userAPI.addStatus(requestBody));
+        await dispatch(userAPI.editStatus(requestBody, id));
         dispatch(userAPI.getStatus());
         handleClose();
 
@@ -33,20 +43,20 @@ const AddStatusModal = ({ show, handleClose }) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавление должности
+                    Редактирование должности
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Group className="mb-3" controlId="statusAddText">
-
-                    <Form.Control type="text" placeholder="Введите название новой должности" />
+                <Form.Group className="mb-3" controlId="editStatusText">
+                    <Form.Label>Измените наименование должности</Form.Label>
+                    <Form.Control type="text" onChange={changeStatus} value={newNameOfStatus} />
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
                 {/* <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button> */}
-                <Button variant="primary" onClick={addStatus}>
+                <Button variant="primary" onClick={editStatus}>
                     Сохранить
                 </Button>
             </Modal.Footer>
@@ -54,4 +64,4 @@ const AddStatusModal = ({ show, handleClose }) => {
     )
 }
 
-export default AddStatusModal;
+export default EditStatusModal;

@@ -1,10 +1,10 @@
 import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getListOfClientsActionCreator, getOpfActionCreator } from "../reducers/client-reducer";
 
-const url = '158.160.64.66';
+const url = '84.201.140.78';
 
 const getListOfClients = (page) => {
     return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}`, {
-        method: "POST",
+        method: "GET",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -104,11 +104,34 @@ const getOpfId = () => {
     }).catch(error => console.log(error))
 }
 
+const addOpf = (body) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/opf`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось создать опф')
+        }
+        console.log("Успешно создан опф")
+        alert("ОПФ была успешно создана");
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        //dispatch(createClientActionCreator(data));
+    }).catch(error => console.log(error));
+}
+
 export const clientAPI = {
     getListOfClients: getListOfClients,
     createClient: createClient,
     getClientInfo: getClientInfo,
     getBicId: getBicId,
-    getOpfId: getOpfId
+    getOpfId: getOpfId,
+    addOpf: addOpf
 
 }

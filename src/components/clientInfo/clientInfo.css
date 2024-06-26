@@ -4,3 +4,11 @@
     padding-top: 2vh;
     padding-bottom: 2vh;
 }
+
+.req {
+    background-color: #dee2e6;
+    border-radius: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    padding-left: 2vh;
+}
