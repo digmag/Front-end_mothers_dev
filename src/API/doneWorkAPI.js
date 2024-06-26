@@ -1,8 +1,8 @@
 import { doneWorkActionCreator } from "../reducers/done-work";
 
 const url = '84.201.140.78'
-const getDoneWork = () => {
-    return dispatch => fetch(`http://${url}:8083/api/document/report`, {
+const getDoneWork = (start, end) => {
+    return dispatch => fetch(`http://${url}:8083/api/document/report?start=${start}&end=${end}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -14,7 +14,6 @@ const getDoneWork = () => {
         }
         return response.json();
     }).then(data => {
-        console.log(data);
         dispatch(doneWorkActionCreator(data));
     }).catch(error => console.log(error));
 }
