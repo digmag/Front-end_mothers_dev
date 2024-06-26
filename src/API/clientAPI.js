@@ -1,6 +1,6 @@
 import { getListOfClientsActionCreator } from "../reducers/client-reducer";
 
-const url = '158.160.64.66';
+const url = '84.201.140.78';
 
 const getListOfClients = (page) => {
     return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}`, {
