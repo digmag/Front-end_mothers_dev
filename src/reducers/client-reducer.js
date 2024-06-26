@@ -3,7 +3,8 @@ const GET_CLIENT_INFO = "GET_CLIENT_INFO";
 const GET_BIC = "GET_BIC";
 const CREATE_CLIENT = "CREATE_CLIENT";
 const GET_OPF = "GET_OPF";
-const GET_REQUISITES = "GET_REQUISITES"
+const GET_REQUISITES = "GET_REQUISITES";
+const GET_CLIENTS_SIMPLE = "GET_CLIENTS_SIMPLE";
 
 const initialClientState = {
 
@@ -49,7 +50,8 @@ const initialClientState = {
         id:"",
         bic:"",
         requisite:""
-    }]
+    }],
+    clientsSimple:[]
 
 }
 
@@ -95,9 +97,17 @@ const clientReducer = (state = initialClientState, action) => {
             })
             return newState;
         case GET_REQUISITES:
-            return{
-                requisites: {...action.requisites}
-            }
+            
+            newState.requisites =[...action.requisites]
+            return newState;
+            
+        case GET_CLIENTS_SIMPLE:
+            const arrayy = []
+            action.payload.forEach(el => {
+                arrayy.push({value:el.id, label:el.label})
+            })
+            newState.clientsSimple = arrayy;
+            return newState;
         default:
             return newState;
     }
@@ -125,6 +135,10 @@ export function getOpfActionCreator(data) {
 
 export function getRequisitesActionCreator(requisites){
     return{type: GET_REQUISITES, requisites: requisites}
+}
+
+export function getClientsSimpleActionCreator(payload){
+    return {type: GET_CLIENTS_SIMPLE, payload: payload}
 }
 
 export default clientReducer;

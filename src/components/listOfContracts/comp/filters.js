@@ -29,37 +29,19 @@ function Filters(){
         setVolume(checked);
     };
     const [volume, setVolume] = useState('');
-    const dispatch = useDispatch();    
-    console.log('123')
-    const [localClients, setLocalClients] = useState([]);
+    const dispatch = useDispatch();
 
-    const clients = useSelector(state=>state.clientReducer.clients);
-    console.log(clients)
+    const clients = useSelector(state=>state.clientReducer.clientsSimple);
     useEffect(() => {
-        if (clients[0].id === '') {
-          dispatch(clientAPI.getListOfClients(0));
-        }
-      }, [dispatch, clients.id]);    
-
-    
-    useEffect(() => {
-    if (localClients.length === 0 && clients[0].id != '') {
-        setLocalClients(clients);
-    }
-    }, [clients, localClients.length]); 
-
-    const listClient = [];
-    localClients.forEach(element=>{
-        listClient.push({value: element.id, label: element.ceoFullName})
-    })
-    const [clientId, setClientId] = useState('')
-    const handleChange = useCallback(async(value) => {
-        setClientId(value);
+        dispatch(clientAPI.getSelectorClients());
+      }, [dispatch]);    
+    const [clientId, setClientID] = useState("");
+    const handleChange = async(value) => {
         await dispatch(clientAPI.getRequisites(value));
-      }, [dispatch]);
+        setClientID(value)
+      };
 
     const req = useSelector(state=>state.clientReducer.requisites)
-    console.log(req);
     const listReq = [];
     req.forEach(element=>{
         listReq.push({value: element.id, label: element.requisite})
@@ -70,7 +52,7 @@ function Filters(){
         const requestBody = {
             number: document.querySelector('#number').value,
             clientId: clientId,
-            bankCode: clientId,
+            bankCode: "1231231223",
             volume: volume,
             price: document.querySelector('#price').value,
             startDate: document.querySelector('#startDate').value,
@@ -143,7 +125,7 @@ function Filters(){
                         <Input id='subject'/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Клиент</Form.Item>
-                        <Select id='client' style={{width:'100%', backgroundColor:'#ffffff'}} options={listClient} onChange={handleChange}/>
+                        <Select id='client' style={{width:'100%', backgroundColor:'#ffffff'}} options={clients} onChange={handleChange}/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Банковские реквизиты клиента</Form.Item>
                         <Select id='bic' style={{width:'100%'}} options={listReq}/>

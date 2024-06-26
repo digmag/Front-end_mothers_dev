@@ -1,4 +1,4 @@
-import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator } from "../reducers/client-reducer";
+import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator } from "../reducers/client-reducer";
 
 const url = '84.201.140.78';
 
@@ -141,8 +141,26 @@ const getRequisites = (id) => {
         console.log("Успешно получен список банковских реквизитов клиента")
         return response.json()
     }).then(data => {
-        console.log(data);
         dispatch(getRequisitesActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const getSelectorClients = () => {
+    return dispatch => fetch(`http://${url}:8083/api/client/list/selector`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список банковских реквизитов клиента')
+        }
+        console.log("Успешно получен список клиентов")
+        return response.json()
+    }).then(data => {
+        dispatch(getClientsSimpleActionCreator(data));
     }).catch(error => console.log(error))
 }
 
@@ -153,5 +171,6 @@ export const clientAPI = {
     getBicId: getBicId,
     getOpfId: getOpfId,
     addOpf: addOpf,
-    getRequisites: getRequisites
+    getRequisites: getRequisites,
+    getSelectorClients:getSelectorClients
 }
