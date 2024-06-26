@@ -17,13 +17,14 @@ const ContractInfoMain = () => {
     }, [])
     const contracts = useSelector(state=>state.contractReducer.contracts)
     const concrete = contracts.find(concrete => concrete.id === id)
+    console.log(concrete)
 
     return (
         <div>
             <HeaderMain />
             <div className='mt-4 mx-5 clientInfoBlock'>
                 <div>
-                    <h4>{id}</h4>
+                    <h4>{concrete}</h4>
                     <div>Наименование краткое</div>
                     <div>ИНН</div>
                     <div>КПП</div>
