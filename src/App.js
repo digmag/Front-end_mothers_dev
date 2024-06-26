@@ -11,6 +11,7 @@ import EditPasswordMain from './components/auth/editPassword/editPasswordMain';
 import ListOfCompletedWorkMain from './components/listOfCompletedWork/listOfCompletedWorkMain';
 import ListOfContractsMain from './components/listOfContracts/listOfContractsMain';
 import ListOfManualsMain from './components/listOfManuals/listOfManualsMain';
+import ContractInfoMain from './components/listOfContracts/comp/contractInfo';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
@@ -42,6 +43,7 @@ function App() {
             <Route path='/contracts' Component={ListOfContractsMain} />
             <Route path='/completedWork' Component={ListOfCompletedWorkMain} />
             <Route path='/manuals' Component={ListOfManualsMain} />
+            <Route path='/contract/:id' Component={ContractInfoMain} />
           </Routes>
         </div>
       </BrowserRouter>

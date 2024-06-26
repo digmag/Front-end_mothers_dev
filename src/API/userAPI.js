@@ -1,4 +1,4 @@
-import { loginActionCreator } from "../reducers/user-reducer";
+import { loginActionCreator, workersActionCreator } from "../reducers/user-reducer";
 
 const url = '84.201.140.78';
 
@@ -110,11 +110,31 @@ const getStatus = () => {
     }).catch(error => console.log(error))
 }
 
+const getEmployees = () => {
+    return dispatch => fetch(`http://${url}:8081/api/account/workers`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить должности')
+        }
+        console.log("Успешно получили должности")
+        return response.json()
+    }).then(data => {
+        dispatch(workersActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
 export const userAPI = {
     login: login,
     registration: registration,
     varification: varification,
     recoverEmail: recoverEmail,
     recoverPassword: recoverPassword,
-    getStatus: getStatus
+    getStatus: getStatus,
+    getEmployees: getEmployees
 }

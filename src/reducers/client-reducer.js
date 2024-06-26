@@ -104,7 +104,7 @@ const clientReducer = (state = initialClientState, action) => {
         case GET_CLIENTS_SIMPLE:
             const arrayy = []
             action.payload.forEach(el => {
-                arrayy.push({value:el.id, label:el.label})
+                arrayy.push({value:el.id, label:el.name})
             })
             newState.clientsSimple = arrayy;
             return newState;

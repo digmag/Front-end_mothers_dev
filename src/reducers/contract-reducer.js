@@ -37,11 +37,17 @@ const initialContractState = {
         }
     ],
     page: 0,
-    count: 0
+    count: 0,
+    info:{
+        client: "",
+        
+    }
 }
 
 const GET_LIST_OF_CONTRACTS = "GET_LIST_OF_CONTRACTS";
 const CREATE_CONTRACT = "CREATE_CONTRACT";
+const DELETE = "DELETE";
+const CONCRETE = "CONCRETE";
 
 const contractReducer = (state = initialContractState, action) => {
     const newState = { ...state };
@@ -52,6 +58,10 @@ const contractReducer = (state = initialContractState, action) => {
         case CREATE_CONTRACT:
             newState.contracts = [...newState.contracts, action.contract];
             return newState;
+        case DELETE:
+            newState.contracts = newState.contracts.filter(obj => obj.id != action.contract);
+        case CONCRETE:
+            newState.contracts = action.data
         default:
             return newState;
     }
@@ -63,6 +73,14 @@ export function getListOfContractsActionCreator(contracts) {
 
 export function createContractActionCreator(contract){
     return{type: CREATE_CONTRACT, contract: contract}
+}
+
+export function deleteContractActionCreator(contract){
+    return{type: DELETE, contract: contract}
+}
+
+export function getConcreteContractActionCreator(data){
+    return{type: CONCRETE, data: data}
 }
 
 export default contractReducer;

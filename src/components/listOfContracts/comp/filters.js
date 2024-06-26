@@ -6,6 +6,8 @@ import t from '../images/Rectangle139.svg'
 import React, {useEffect, useState, useCallback} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {clientAPI} from '../../../API/clientAPI'
+import { userAPI } from '../../../API/userAPI';
+import { contractAPI } from '../../../API/contractAPI';
 
 function Filters(){
 
@@ -31,10 +33,11 @@ function Filters(){
     const [volume, setVolume] = useState('');
     const dispatch = useDispatch();
 
-    const clients = useSelector(state=>state.clientReducer.clientsSimple);
+    const clients = useSelector(state=>state.clientReducer.clientsSimple);    
     useEffect(() => {
         dispatch(clientAPI.getSelectorClients());
-      }, [dispatch]);    
+        dispatch(userAPI.getEmployees());
+      }, []);    
     const [clientId, setClientID] = useState("");
     const handleChange = async(value) => {
         await dispatch(clientAPI.getRequisites(value));
@@ -46,23 +49,42 @@ function Filters(){
     req.forEach(element=>{
         listReq.push({value: element.id, label: element.requisite})
     })
+    const [bankCode, setBankCode] = useState("");
+    const handleChangeee = (value) => {
+        setBankCode(value)
+      };
+
+
+    const workers = useSelector(state=>state.userReducer.workers);
+    const [employeeId, setEmployeeId] = useState("");
+    const handleChangee = (value) => {
+        setEmployeeId(value)
+      };
 
 
     const addContract = () => {
         const requestBody = {
             number: document.querySelector('#number').value,
             clientId: clientId,
-            bankCode: "1231231223",
+            bankCode: bankCode,
             volume: volume,
             price: document.querySelector('#price').value,
             startDate: document.querySelector('#startDate').value,
             endDoingDate: document.querySelector('#endDoingDate').value,
             endLifeDate: document.querySelector('#endLifeDate').value,
             subject: document.querySelector('#subject').value,
-            // employeeId: document.getElementById('#employeeId').value,
+            employeeId: employeeId,
             isEnd: isEnd,
+            pricePositions:[
+                {
+                    "id":"615c5fc8-6502-4d88-ac85-aee9ad3bee3b",
+                    "count":2
+                }
+            ]
         }
         console.log(requestBody);
+        dispatch(contractAPI.createContract(requestBody))
+        dispatch(contractAPI.getListOfContracts())
     }
 
     return(
@@ -128,14 +150,10 @@ function Filters(){
                         <Select id='client' style={{width:'100%', backgroundColor:'#ffffff'}} options={clients} onChange={handleChange}/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Банковские реквизиты клиента</Form.Item>
-                        <Select id='bic' style={{width:'100%'}} options={listReq}/>
+                        <Select id='bic' style={{width:'100%'}} options={listReq} onChange={handleChangeee}/>
 
                         <Form.Item name="username" style={{margin:'0 0 1vh 0', width:'40vw', color:'#adadc2'}}>Ответственный</Form.Item>
-                        <Select id='employee' style={{width:'100%'}} options={[
-                            { value: 'jack', label: 'Jack' },
-                            { value: 'lucy', label: 'Lucy' },
-                            { value: 'Yiminghe', label: 'yiminghe' },
-                        ]}/>
+                        <Select id='employee' style={{width:'100%'}} options={workers} onChange={handleChangee}/>
 
                         <Row style={{display:'flex', justifyContent:'start', margin:'1vh 0 0 0', height:'4vh'}}>
                             <Col span={2}><Form.Item name="username" style={{width:'40vw', color:'#adadc2'}}>Объем</Form.Item></Col>

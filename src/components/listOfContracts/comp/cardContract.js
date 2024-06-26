@@ -3,8 +3,11 @@ import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 import '../../listOfClients/listOfClients.css';
 import { Row, Col, Button } from 'antd';
+import { useDispatch } from 'react-redux';
+import { contractAPI } from '../../../API/contractAPI';
 
 const CardContract = (props) => {
+    const dispatch = useDispatch()
     const prop = props.contract;
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -31,9 +34,12 @@ const CardContract = (props) => {
         textColor = '#376EDA'
     }
 
+    const deleteOnClick = () =>{
+        dispatch(contractAPI.deleteContract(prop.id))
+    }
 
     return (
-        <Nav.Link>
+        <Nav.Link as={Link} to={`/contract/${prop.id}`}>
             <div className='mx-5 cardOfClient' style={{ background: backColor, width:'75vw' , display:'flex', flexDirection:'column', margin:'2vh 0 0 0'}}>
                 <Row style={{height:'70%'}}>
                     <div style={{width:'100%', display:'flex', justifyContent:'space-around'}}>
@@ -60,7 +66,7 @@ const CardContract = (props) => {
                         <span>{prop.employee.fullName}</span>
                     </Col>
                     <Col span={2}>
-                        <Button type='primary' danger style={{backgroundColor:'#DA3737'}}>Удалить</Button>
+                        <Button type='primary' danger style={{backgroundColor:'#DA3737'}} onClick={deleteOnClick}>Удалить</Button>
                     </Col>
                 </Row>
             </div>
