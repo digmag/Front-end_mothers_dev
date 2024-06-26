@@ -85,6 +85,7 @@ function Filters(){
         console.log(requestBody);
         dispatch(contractAPI.createContract(requestBody))
         dispatch(contractAPI.getListOfContracts())
+        setIsModalOpen(false);
     }
 
     return(
