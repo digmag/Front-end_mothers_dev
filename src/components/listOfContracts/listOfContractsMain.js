@@ -12,7 +12,7 @@ const ListOfContractsMain = () => {
     }, [])
 
     const contractsList = useSelector(state => state.contractReducer);
-
+    console.log(contractsList)
     return (
         <div>
             <HeaderMain />
@@ -20,7 +20,7 @@ const ListOfContractsMain = () => {
                 <div style={{width:'80vw', margin:'2vh 0 0 0'}}>
                     <Filters/>
                     {contractsList.contracts.map(contract => (
-                        <CardContract contract = {contract}/>
+                        <CardContract contract = {contract} id={contract.id}/>
                     ))}
                 </div>
             </div>
