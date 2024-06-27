@@ -5,6 +5,8 @@ const CREATE_CLIENT = "CREATE_CLIENT";
 const GET_OPF = "GET_OPF";
 const GET_REQUISITES = "GET_REQUISITES";
 const GET_CLIENTS_SIMPLE = "GET_CLIENTS_SIMPLE";
+const GET_CONCRET_OPF = "GET_CONCRET_OPF";
+const EDIT_CLIENT = "EDIT_CLIENT";
 
 const initialClientState = {
 
@@ -51,7 +53,11 @@ const initialClientState = {
         bic:"",
         requisite:""
     }],
-    clientsSimple:[]
+    clientsSimple:[],
+    concretOpf: [{
+        id: "",
+        name: ""
+    }]
 
 }
 
@@ -108,6 +114,13 @@ const clientReducer = (state = initialClientState, action) => {
             })
             newState.clientsSimple = arrayy;
             return newState;
+        case GET_CONCRET_OPF:
+            newState.concretOpf = action.data;
+            return newState;
+
+        case EDIT_CLIENT:
+            newState.clientInfo = action.data;
+            return newState;
         default:
             return newState;
     }
@@ -139,6 +152,14 @@ export function getRequisitesActionCreator(requisites){
 
 export function getClientsSimpleActionCreator(payload){
     return {type: GET_CLIENTS_SIMPLE, payload: payload}
+}
+
+export function getConcretOpfActionCreator(data) {
+    return { type: GET_CONCRET_OPF, data: data }
+}
+
+export function editClientActionCreator(data) {
+    return { type: EDIT_CLIENT, data: data }
 }
 
 export default clientReducer;
