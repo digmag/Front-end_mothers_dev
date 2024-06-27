@@ -12,7 +12,6 @@ const ListOfContractsMain = () => {
     }, [])
 
     const contractsList = useSelector(state => state.contractReducer);
-    console.log(contractsList);
 
     return (
         <div>

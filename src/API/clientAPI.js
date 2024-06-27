@@ -1,4 +1,4 @@
-import { createClientActionCreator, editClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getConcretOpfActionCreator, getListOfClientsActionCreator, getOpfActionCreator } from "../reducers/client-reducer";
+import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator } from "../reducers/client-reducer";
 
 const url = '84.201.140.78';
 
@@ -104,26 +104,6 @@ const getOpfId = () => {
     }).catch(error => console.log(error))
 }
 
-const getConcretOpfId = (name) => {
-    return dispatch => fetch(`http://${url}:8083/api/client/opf?name=${name}`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    }).then(response => {
-        if (!response.ok) {
-            console.log(response);
-            throw new Error('Не удалось получить конкретный опф')
-        }
-        console.log("Успешно получен конкретный опф")
-        return response.json()
-    }).then(data => {
-        console.log(data);
-        dispatch(getConcretOpfActionCreator(data));
-    }).catch(error => console.log(error))
-}
-
 const addOpf = (body) => {
     return dispatch => fetch(`http://${url}:8083/api/client/opf`, {
         method: "POST",
@@ -146,9 +126,9 @@ const addOpf = (body) => {
     }).catch(error => console.log(error));
 }
 
-const deleteClient = (id, navigate) => {
-    return dispatch => fetch(`http://${url}:8083/api/client/delete/${id}`, {
-        method: "DELETE",
+const getRequisites = (id) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/requisits/${id}`, {
+        method: "GET",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -156,35 +136,32 @@ const deleteClient = (id, navigate) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
-            throw new Error('Не удалось удалить клиента')
+            throw new Error('Не удалось получить список банковских реквизитов клиента')
         }
-        console.log("Успешно удален клиент")
-        navigate("/clients");
-        // alert("ОПФ была успешно создана");
-        return response.json()
-    }).catch(error => console.log(error));
-}
-
-const editClient = (body, id) => {
-    return dispatch => fetch(`http://${url}:8083/api/client/update/${id}`, {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        },
-        body: JSON.stringify(body)
-    }).then(response => {
-        if (!response.ok) {
-            console.log(response);
-            throw new Error('Не удалось редактировать клиента')
-        }
-        console.log("Успешно редактирован клиент")
-        alert("Клиент был успешно отредактирован");
+        console.log("Успешно получен список банковских реквизитов клиента")
         return response.json()
     }).then(data => {
-        console.log(data);
-        dispatch(editClientActionCreator(data));
-    }).catch(error => console.log(error));
+        dispatch(getRequisitesActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const getSelectorClients = () => {
+    return dispatch => fetch(`http://${url}:8083/api/client/list/selector`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список банковских реквизитов клиента')
+        }
+        console.log("Успешно получен список клиентов")
+        return response.json()
+    }).then(data => {
+        dispatch(getClientsSimpleActionCreator(data));
+    }).catch(error => console.log(error))
 }
 
 export const clientAPI = {
@@ -194,8 +171,6 @@ export const clientAPI = {
     getBicId: getBicId,
     getOpfId: getOpfId,
     addOpf: addOpf,
-    deleteClient: deleteClient,
-    editClient: editClient,
-    getConcretOpfId: getConcretOpfId
-
+    getRequisites: getRequisites,
+    getSelectorClients:getSelectorClients
 }
