@@ -54,7 +54,7 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
     const [requisites, setRequisites] = useState([]);
 
     useEffect(() => {
-        setRequisites(requisitesFromRequest.map(req => ({ ...req, initialBic: req.bic, bic: '' })));
+        setRequisites(requisitesFromRequest.map(req => ({ ...req, bic: req.code })));
     }, [requisitesFromRequest]);
 
     const handleInputChange = (index, event) => {
@@ -65,7 +65,7 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
     };
 
     const handleAddRequisite = () => {
-        setRequisites([...requisites, { id: '', bic: '', requisite: '', initialBic: '' }]);
+        setRequisites([...requisites, { id: '', bic: '', code: '', requisite: '' }]);
     };
 
     ///жесть с заполнением форм
@@ -144,6 +144,7 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
         const formattedData = requisites.map(requisite => ({
             id: requisite.id,
             bic: requisite.bic,
+            // code: requisite.code,
             requisite: requisite.requisite
         }));
 
@@ -175,7 +176,7 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
             "email": email,
             "comment": comment
         }
-        console.log("офигенное тело запроса ", JSON.stringify(requestBody));
+        console.log("офигенное тело запроса ", requestBody);
         const resp = dispatch(clientAPI.editClient(requestBody, id));
         handleClose();
 
@@ -231,7 +232,6 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
                                         className='addClientInput'
                                         name="bic"
                                         value={requisite.bic} // Изменено с placeholder на value
-                                        placeholder={requisite.initialBic}
                                     />
                                 </p>
                                 <datalist id="bic">
@@ -251,7 +251,7 @@ const EditClientModal = ({ show, handleClose, id, clientType, fullName, shortNam
                             </Form.Group>
                         </div>
                     ))}
-                    {/* <Button variant="secondary" className='mt-2' onClick={handleAddRequisite}>Добавить реквизит</Button>{' '} */}
+                    {/* <Button variant="secondary" className='mt-2' onClick={handleAddRequisite}>Добавить реквизит</Button>{' '}  */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="opfEditText">
