@@ -182,6 +182,45 @@ const getConcretOpfId = (name) => {
         dispatch(getConcretOpfActionCreator(data));
     }).catch(error => console.log(error))
 }
+const deleteClient = (id, navigate) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось удалить клиента')
+        }
+        console.log("Успешно удален клиент")
+        navigate("/clients");
+        // alert("ОПФ была успешно создана");
+        return response.json()
+    }).catch(error => console.log(error));
+}
+
+const editClient = (body, id) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/update/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось редактировать клиента')
+        }
+        console.log("Успешно редактирован клиент")
+        alert("Клиент был успешно отредактирован");
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(editClientActionCreator(data));
+    }).catch(error => console.log(error));}
 
 export const clientAPI = {
     getListOfClients: getListOfClients,
@@ -192,5 +231,7 @@ export const clientAPI = {
     addOpf: addOpf,
     getRequisites: getRequisites,
     getSelectorClients:getSelectorClients,
-    getConcretOpfId:getConcretOpfId
+    getConcretOpfId:getConcretOpfId,
+    editClient:editClient,
+    deleteClient:deleteClient
 }
