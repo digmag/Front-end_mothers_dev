@@ -1,4 +1,4 @@
-import { getListOfContractsActionCreator, createContractActionCreator } from "../reducers/contract-reducer";
+import { getListOfContractsActionCreator, createContractActionCreator, deleteContractActionCreator, getConcreteContractActionCreator } from "../reducers/contract-reducer";
 
 const url = '84.201.140.78';
 
@@ -21,9 +21,44 @@ const getListOfContracts = () => {
     }).catch(error => console.log(error))
 }
 
-const createContract = () =>{
+const createContract = (data) =>{
     return dispatch => fetch(`http://${url}:8083/api/document/contract/create`, {
         method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Не удалось получить список договоров')
+        }
+        return response.json()
+    }).then(data => {
+        dispatch(createContractActionCreator(data));
+    }).catch(error => console.log(error))
+}
+
+const deleteContract = (id) =>{
+    return dispatch => fetch(`http://${url}:8083/api/document/contract/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Не удалось получить список klkjkbhvgcfchvbjnkljhjgf')
+        }
+        return response.text()
+    }).then(data => {
+        dispatch(deleteContractActionCreator(id));
+    }).catch(error => console.log(error))
+}
+
+const getConcreteContract = (id) => {
+    return dispatch => fetch(`http://${url}:8083/api/document/contract/${id}`, {
+        method: "GET",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -31,17 +66,18 @@ const createContract = () =>{
     }).then(response => {
         if (!response.ok) {
             console.log(response);
-            throw new Error('Не удалось получить список договоров')
+            throw new Error('Не удалось получить список jkhjvghcfghvjbknl')
         }
-        console.log("Успешно получен список договоров")
         return response.json()
     }).then(data => {
-        dispatch(createContractActionCreator(data));
+        dispatch(getConcreteContractActionCreator(data));
     }).catch(error => console.log(error))
 }
 
 export const contractAPI = {
     getListOfContracts: getListOfContracts,
-    createContract: createContract
+    createContract: createContract,
+    deleteContract: deleteContract,
+    getConcreteContract: getConcreteContract
 }
 
