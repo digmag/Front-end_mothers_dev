@@ -2,8 +2,8 @@ import { getListOfContractsActionCreator, createContractActionCreator, deleteCon
 
 const url = '84.201.140.78';
 
-const getListOfContracts = () => {
-    return dispatch => fetch(`http://${url}:8083/api/document/contract`, {
+const getListOfContracts = (client="") => {
+    return dispatch => fetch(`http://${url}:8083/api/document/contract?client=${client}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -17,6 +17,7 @@ const getListOfContracts = () => {
         console.log("Успешно получен список договоров")
         return response.json()
     }).then(data => {
+        console.log(data);
         dispatch(getListOfContractsActionCreator(data));
     }).catch(error => console.log(error))
 }
