@@ -168,6 +168,24 @@ const editStatus = (body, id) => {
         return response.text()
     }).catch(error => console.log(error))
 }
+const getEmployees = () => {
+    return dispatch => fetch(`http://${url}:8081/api/account/workers`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить должности')
+        }
+        console.log("Успешно получили должности")
+        return response.json()
+    }).then(data => {
+        dispatch(workersActionCreator(data));
+    }).catch(error => console.log(error))
+}
 
 export const userAPI = {
     login: login,
@@ -178,5 +196,6 @@ export const userAPI = {
     getStatus: getStatus,
     isAdmin: isAdmin,
     addStatus: addStatus,
-    editStatus: editStatus
+    editStatus: editStatus,
+    getEmployees:getEmployees
 }
