@@ -14,6 +14,7 @@ import ListOfManualsMain from './components/listOfManuals/listOfManualsMain';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import AdminPanelMain from './components/adminPanel/adminPanelMain';
+import ContractInfoMain from './components/listOfContracts/comp/contractInfo';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path='/completedWork' Component={ListOfCompletedWorkMain} />
             <Route path='/manuals' Component={ListOfManualsMain} />
             <Route path='/admin' Component={AdminPanelMain} />
+            <Route path='/contract/:id' Component={ContractInfoMain} />
           </Routes>
         </div>
       </BrowserRouter>

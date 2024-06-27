@@ -8,7 +8,6 @@ import { userAPI } from '../../../API/userAPI';
 import { contractAPI } from '../../../API/contractAPI';
 
 const EditPriceModal = ({ show, handleClose, id }) => {
-    console.log(id)
     const dispatch = useDispatch();
     const [state, setState] = useState({
         law:"",
