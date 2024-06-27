@@ -141,7 +141,7 @@ const deletePrice = (id) =>{
     }).then(response => {
         if (!response.ok) {
             console.log(response);
-            throw new Error('Не удалось удалить')
+            throw new Error('Не удалось удалить, цена учавствует в договоре')
         }
         return response.text()
     }).then(data => {
