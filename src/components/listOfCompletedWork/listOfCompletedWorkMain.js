@@ -27,7 +27,7 @@ const ListOfCompletedWorkMain = () => {
             return "0.0"
         }
         let summ = String(sum).split(".");
-        return `${summ[0]}.${String(summ[1]).slice(0,2)}`
+        return `${summ[0]}.${summ[1]!=undefined?String(summ[1]).slice(0,2):"00"}`
     }
 
     return (
