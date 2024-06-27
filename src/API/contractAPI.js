@@ -1,6 +1,6 @@
 import { getListOfContractsActionCreator, createContractActionCreator, deleteContractActionCreator, getConcreteContractActionCreator, getPricesForContractActionCreator, addPricesForContractActionCreator,editPricesForContractActionCreator, deletePriceActionCreator } from "../reducers/contract-reducer";
 
-const url = '84.201.140.78';
+const url = process.env.REACT_APP_API_URL;
 
 const getListOfContracts = (client="") => {
     return dispatch => fetch(`http://${url}:8083/api/document/contract?client=${client}`, {

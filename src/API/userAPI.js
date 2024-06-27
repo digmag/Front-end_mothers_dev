@@ -1,6 +1,6 @@
 import { addStatusActionCreator, isAdminActionCreator, loginActionCreator, statusListActionCreator, workersActionCreator } from "../reducers/user-reducer";
 
-const url = '84.201.140.78';
+const url = process.env.REACT_APP_API_URL;
 
 const login = (body, navigate) => {
     return dispatch => fetch(`http://${url}:8081/api/account/login`, {

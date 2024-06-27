@@ -1,6 +1,6 @@
 import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator, getConcretOpfActionCreator, editClientActionCreator } from "../reducers/client-reducer";
 
-const url = '84.201.140.78';
+const url = process.env.REACT_APP_API_URL;
 
 const getListOfClients = (page = 0, isLaw = '', inn = '', name = '', email = '', ceoName = '') => {
     return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}&isLaw=${isLaw}&inn=${inn}&name=${name}&email=${email}&ceoName=${ceoName}`, {

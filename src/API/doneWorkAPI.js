@@ -1,7 +1,7 @@
 import { makeDoneWorkActionCreator } from "../reducers/contract-reducer";
 import { doneWorkActionCreator } from "../reducers/done-work";
 
-const url = '84.201.140.78'
+const url = process.env.REACT_APP_API_URL
 const getDoneWork = (start, end) => {
     return dispatch => fetch(`http://${url}:8083/api/document/report?start=${start}&end=${end}`, {
         method: "GET",
