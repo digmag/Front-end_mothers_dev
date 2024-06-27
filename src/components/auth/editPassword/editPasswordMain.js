@@ -50,6 +50,7 @@ const EditPasswordMain = () => {
 
                 <Modal.Footer>
                     <Button variant="primary" className='mb-4' onClick={sendPasswordToEmail}>Изменить пароль</Button>
+                    <Nav.Link className='mb-4' as={Link} to="/login">Вернуться на страницу авторизации</Nav.Link>
                 </Modal.Footer>
             </Modal.Dialog>
         </div>

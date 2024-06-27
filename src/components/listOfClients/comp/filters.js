@@ -80,10 +80,7 @@ const FiltersClients = () => {
                     <Button variant="primary" onClick={filterReq}>Поиск</Button>
                 </div>
 
-                <div className='addClientButton'>
-                    {isAdmin && <Button variant="primary" onClick={handleShow} >Добавить клиента</Button>}
-                    <AddClientModal show={show} handleClose={handleClose} />
-                </div>
+
 
 
 
@@ -96,6 +93,10 @@ const FiltersClients = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }} className='ms-4'>
                     <img src={f} alt="f" />
                     <div style={{ color: '#90939A', margin: '1% 0 0 1vw', width: 100, fontSize: 'medium' }}>- физ лицо</div>
+                </div>
+                <div className='addClientButton'>
+                    {isAdmin && <Button variant="primary" onClick={handleShow} >Добавить клиента</Button>}
+                    <AddClientModal show={show} handleClose={handleClose} />
                 </div>
             </div>
         </div>

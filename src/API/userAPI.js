@@ -1,4 +1,4 @@
-import { addStatusActionCreator, isAdminActionCreator, loginActionCreator, statusListActionCreator,workersActionCreator } from "../reducers/user-reducer";
+import { addStatusActionCreator, isAdminActionCreator, loginActionCreator, statusListActionCreator, workersActionCreator } from "../reducers/user-reducer";
 
 const url = '84.201.140.78';
 
@@ -12,6 +12,7 @@ const login = (body, navigate) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
+            alert("Неправильный логин или пароль");
             throw new Error('Не удалось залогиниться')
         }
         console.log("Успешно залогинились")
@@ -33,6 +34,7 @@ const registration = (body) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
+            alert("Не удалось зарегистрироваться");
             throw new Error('Не удалось зарегистрироваться')
         }
         return response.text()
@@ -48,6 +50,7 @@ const varification = (id) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
+            alert("Не удалось подтвердить учетную запись");
             throw new Error('Не удалось подтвердить учетную запись')
         }
         return response.text()
@@ -64,6 +67,7 @@ const recoverEmail = (body) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
+            alert("Не удалось отправить восстановление на емаил");
             throw new Error('Не удалось отправить восстановление на емаил')
         }
         return response.text()
@@ -80,6 +84,7 @@ const recoverPassword = (body, id) => {
     }).then(response => {
         if (!response.ok) {
             console.log(response);
+            alert("Не удалось изменить пароль");
             throw new Error('Не удалось изменить пароль')
         }
         return response.text()
@@ -187,5 +192,5 @@ export const userAPI = {
     isAdmin: isAdmin,
     addStatus: addStatus,
     editStatus: editStatus,
-    getEmployees:getEmployees
+    getEmployees: getEmployees
 }
