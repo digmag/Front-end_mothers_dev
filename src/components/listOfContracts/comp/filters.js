@@ -85,7 +85,7 @@ function Filters(){
             isEnd: isEnd,
             pricePositions:[
                 {
-                    "id":"615c5fc8-6502-4d88-ac85-aee9ad3bee3b",
+                    "id":"ecfc9666-af92-4182-89af-e99b26070682",
                     "count":2
                 }
             ]
