@@ -23,12 +23,13 @@ const ClientInfoMain = () => {
     let face = '';
     let backColor;
     if (faceType === "LAW") {
-        face = "Юридическое лицо";
-        backColor = '#FFD6D6';
-    }
-    else {
         face = "Физическое лицо";
         backColor = '#D6E4FF';
+    }
+    else {
+        face = "Юридическое лицо";
+        backColor = '#FFD6D6';
+
     }
 
     const isAdmin = useSelector(state => state.userReducer.isAdmin);
