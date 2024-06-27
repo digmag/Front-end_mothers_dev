@@ -7,7 +7,7 @@ import CardContract from './comp/cardContract';
 
 const ListOfContractsMain = () => {
     const dispatch = useDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(contractAPI.getListOfContracts())
     }, [])
 
@@ -16,15 +16,13 @@ const ListOfContractsMain = () => {
     return (
         <div>
             <HeaderMain />
-            <div style={{display:'flex', justifyContent:'center'}}>
-                <div style={{width:'80vw', margin:'2vh 0 0 0'}}>
-                    <Filters/>
-                    {contractsList.contracts.map(contract => (
-                        <CardContract contract = {contract}/>
-                    ))}
-                </div>
-            </div>
+
+            <Filters />
+            {contractsList.contracts.map(contract => (
+                <CardContract contract={contract} />
+            ))}
         </div>
+
     )
 }
 
