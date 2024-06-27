@@ -83,7 +83,7 @@ const ClientInfoMain = () => {
                     comment={comment} requisitesFromRequest={requisites} />}
 
                 {isAdmin && <Button variant="danger" className='ms-4' onClick={handleShowDel}>Удалить клиента</Button>}
-                <DeleteClientModal show={showDel} handleClose={handleCloseDel} />
+                <DeleteClientModal show={showDel} handleClose={handleCloseDel} id={id} />
 
 
             </div >
