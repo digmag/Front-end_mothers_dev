@@ -7,7 +7,7 @@ import { userAPI } from '../../API/userAPI';
 import AddStatusModal from './comp/addStatusModal';
 import EditStatusModal from './comp/editStatusModal';
 import './adminPanel.css';
-import AddOpfModal from './comp/addOpfModal';
+// import AddOpfModal from './comp/addOpfModal';
 
 const AdminPanelMain = () => {
 
@@ -36,10 +36,7 @@ const AdminPanelMain = () => {
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
-    //модальное окно добавления опф
-    const [showOpf, setShowOpf] = useState(false);
-    const handleCloseOpf = () => setShowOpf(false);
-    const handleShowOpf = () => setShowOpf(true);
+
 
     return (
         <div>
@@ -63,9 +60,8 @@ const AdminPanelMain = () => {
                     <Button variant="warning" onClick={handleShowEdit} className='mt-2'>Редактировать</Button>
                     <EditStatusModal show={showEdit} handleClose={handleCloseEdit} id={statusId} label={statusLabel.label} />
                 </div>
-                <h4 className='mt-4'>Добавление ОПФ(организационно-правовой формы)</h4>
-                <Button variant="success" onClick={handleShowOpf}>Добавить ОПФ</Button>
-                <AddOpfModal show={showOpf} handleClose={handleCloseOpf} />
+                {/* <h4 className='mt-4'>Добавление ОПФ(организационно-правовой формы)</h4> */}
+
 
             </div>
 

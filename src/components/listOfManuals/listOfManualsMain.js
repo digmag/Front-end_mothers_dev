@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { clientAPI } from '../../API/clientAPI';
+import Button from 'react-bootstrap/Button';
+import AddOpfModal from './addOpfModal';
 
 const ListOfManualsMain = () => {
 
@@ -18,6 +20,11 @@ const ListOfManualsMain = () => {
     const opfs = useSelector(state => state.clientReducer.opf);
 
     //console.log("rrr", statuses);
+
+    //модальное окно добавления опф
+    const [showOpf, setShowOpf] = useState(false);
+    const handleCloseOpf = () => setShowOpf(false);
+    const handleShowOpf = () => setShowOpf(true);
 
     return (
         <div>
@@ -38,6 +45,11 @@ const ListOfManualsMain = () => {
 
                     ))}
                 </ListGroup>
+                <div className='mt-3' style={{ textAlign: 'right' }}>
+                    <Button variant="success" onClick={handleShowOpf}>Добавить ОПФ</Button>
+                </div>
+
+                <AddOpfModal show={showOpf} handleClose={handleCloseOpf} />
             </div>
 
 
