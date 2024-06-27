@@ -6,6 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { clientAPI } from '../../API/clientAPI';
 import Button from 'react-bootstrap/Button';
 import AddOpfModal from './addOpfModal';
+import AddStatusModal from './addStatusModal';
 
 const ListOfManualsMain = () => {
 
@@ -19,12 +20,19 @@ const ListOfManualsMain = () => {
     const statuses = useSelector(state => state.userReducer.statusList);
     const opfs = useSelector(state => state.clientReducer.opf);
 
+    const isAdmin = useSelector(state => state.userReducer.isAdmin);
+
     //console.log("rrr", statuses);
 
     //модальное окно добавления опф
     const [showOpf, setShowOpf] = useState(false);
     const handleCloseOpf = () => setShowOpf(false);
     const handleShowOpf = () => setShowOpf(true);
+
+    //модальное окно добавления должности
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div>
@@ -38,6 +46,11 @@ const ListOfManualsMain = () => {
 
                     ))}
                 </ListGroup>
+                <div className='mt-3' style={{ textAlign: 'right' }}>
+                    {isAdmin && <Button variant="success" onClick={handleShow} className='mt-2'>Добавить Должность</Button>}
+                </div>
+
+                <AddStatusModal show={show} handleClose={handleClose} />
                 <h5 className='mt-5'>Организационно-правовые формы:</h5>
                 <ListGroup>
                     {opfs.map(el => (
@@ -46,7 +59,7 @@ const ListOfManualsMain = () => {
                     ))}
                 </ListGroup>
                 <div className='mt-3' style={{ textAlign: 'right' }}>
-                    <Button variant="success" onClick={handleShowOpf}>Добавить ОПФ</Button>
+                    {isAdmin && <Button variant="success" onClick={handleShowOpf}>Добавить ОПФ</Button>}
                 </div>
 
                 <AddOpfModal show={showOpf} handleClose={handleCloseOpf} />

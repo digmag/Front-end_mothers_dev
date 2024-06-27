@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
-import AddStatusModal from './comp/addStatusModal';
+import AddStatusModal from '../listOfManuals/addStatusModal';
 import EditStatusModal from './comp/editStatusModal';
 import './adminPanel.css';
 // import AddOpfModal from './comp/addOpfModal';
@@ -26,10 +26,7 @@ const AdminPanelMain = () => {
         setStatusLabel(label);
     };
 
-    //модальное окно добавления должности
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
 
     //модальное окно редактирования должности
     const [showEdit, setShowEdit] = useState(false);
@@ -43,8 +40,7 @@ const AdminPanelMain = () => {
             <HeaderMain />
             <div className='my-4 mx-5 adminPanelAll'>
                 <h4>Список Должностей</h4>
-                <Button variant="success" onClick={handleShow} className='mt-2'>Добавить Должность</Button>
-                <AddStatusModal show={show} handleClose={handleClose} />
+
                 <div className='mt-3'>
                     <div>Редактировать должность</div>
                     <div className='mt-2'>
