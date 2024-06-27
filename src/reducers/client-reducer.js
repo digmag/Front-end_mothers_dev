@@ -97,7 +97,7 @@ const clientReducer = (state = initialClientState, action) => {
             })
             return newState;
         case GET_REQUISITES:
-            
+
             newState.requisites =[...action.requisites]
             return newState;
             
