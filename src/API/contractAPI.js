@@ -1,4 +1,4 @@
-import { getListOfContractsActionCreator, createContractActionCreator, deleteContractActionCreator, getConcreteContractActionCreator, getPricesForContractActionCreator, addPricesForContractActionCreator } from "../reducers/contract-reducer";
+import { getListOfContractsActionCreator, createContractActionCreator, deleteContractActionCreator, getConcreteContractActionCreator, getPricesForContractActionCreator, addPricesForContractActionCreator,editPricesForContractActionCreator, deletePriceActionCreator } from "../reducers/contract-reducer";
 
 const url = '84.201.140.78';
 
@@ -110,12 +110,53 @@ const addPrice = (body) =>{
     }).catch(error => console.log(error))
 }
 
+const editPrice = (body, id) =>{
+    console.log(body,id)
+    return dispatch => fetch(`http://${url}:8083/api/document/price/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body:JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить список jkhjvghcfghvjbknl')
+        }
+        return response.json()
+    }).then(data => {
+        dispatch(editPricesForContractActionCreator(data, id));
+    }).catch(error => console.log(error))
+}
+
+const deletePrice = (id) =>{
+    console.log(id)
+    return dispatch => fetch(`http://${url}:8083/api/document/price/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось удалить')
+        }
+        return response.text()
+    }).then(data => {
+        dispatch(deletePriceActionCreator(id));
+    }).catch(error => console.log(error))
+}
+
 export const contractAPI = {
     getListOfContracts: getListOfContracts,
     createContract: createContract,
     deleteContract: deleteContract,
     getConcreteContract: getConcreteContract,
     getPrices:getPrices,
-    addPrice:addPrice
+    addPrice:addPrice,
+    editPrice:editPrice,
+    deletePrice:deletePrice
 }
 

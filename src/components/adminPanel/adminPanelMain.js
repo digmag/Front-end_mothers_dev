@@ -10,6 +10,7 @@ import './adminPanel.css';
 import AddPriceModal from './comp/addPriceModal';
 import { contractAPI } from '../../API/contractAPI';
 import { Table } from 'react-bootstrap';
+import EditPriceModal from './comp/eidtPriceModal';
 // import AddOpfModal from './comp/addOpfModal';
 
 const AdminPanelMain = () => {
@@ -46,6 +47,19 @@ const AdminPanelMain = () => {
     }
     const handleCloseAddPrice = () => {
         setShowAddPrice(false);
+    }
+    const [showEditPrice, setShowEditPrice] = useState(false);
+    const [editid, setEditid] = useState("");
+    const handleEditPrice = (e) => {
+        setEditid(e.target.getAttribute("idprop"));
+        setShowEditPrice(true)
+    }
+    const handleCloseEditPrice = () => {
+        setShowEditPrice(false);
+    }
+
+    const handleDelete = (e) => {
+        dispatch(contractAPI.deletePrice(e.target.getAttribute("idprop")))
     }
     const statePrices = useSelector(state => state.contractReducer.priceList)
 
@@ -95,7 +109,11 @@ const AdminPanelMain = () => {
                                     {el.price}
                                 </th>
                                 <th>
-                                    <Button variant='warning'>Изменить</Button>
+                                    <Button variant='warning' idProp={el.id} onClick={handleEditPrice}>Изменить</Button>
+                                    <EditPriceModal id={editid} law={String(el.law)} name={String(el.name)} price={String(el.price)} show={showEditPrice} handleClose={handleCloseEditPrice}/>
+                                </th>
+                                <th>
+                                    <Button variant='danger' idProp={el.id} onClick={handleDelete}>Удалить</Button>
                                 </th>
                             </tr>
                         ))}

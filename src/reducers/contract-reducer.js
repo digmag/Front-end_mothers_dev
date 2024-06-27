@@ -1,3 +1,5 @@
+import { type } from "@testing-library/user-event/dist/type";
+
 const initialContractState = {
     contracts: [
         {
@@ -94,6 +96,8 @@ const CONCRETE = "CONCRETE";
 const MAKE_DONE = "MAKE_DONE";
 const GET_PRICES = "GET_PRICES";
 const ADD_PRICE = "ADD_PRICE";
+const EDIT_PRICE = "EDIT_PRICE";
+const DELETE_PRICE = "DELETE_PRICE";
 
 const contractReducer = (state = initialContractState, action) => {
     const newState = { ...state };
@@ -118,6 +122,14 @@ const contractReducer = (state = initialContractState, action) => {
             return newState;
         case ADD_PRICE:
             newState.priceList = [...newState.priceList,{...action.payload}]
+            return newState;
+        case EDIT_PRICE:
+            const arr = newState.priceList.filter(obj => obj.id!== action.id);
+            newState.priceList = [...arr, {...action.payload}];
+            return newState;
+        case DELETE_PRICE:
+            const arrr = newState.priceList.filter(obj => obj.id!== action.id);
+            newState.priceList = [...arrr];
             return newState;
         default:
             return newState;
@@ -151,4 +163,11 @@ export function addPricesForContractActionCreator(payload){
     return {type: ADD_PRICE, payload: payload};
 }
 
+export function editPricesForContractActionCreator(payload,id){
+    return {type: EDIT_PRICE, payload: payload, id:id};
+}
+
+export function deletePriceActionCreator(id){
+    return {type: DELETE_PRICE, id: id}
+}
 export default contractReducer;
