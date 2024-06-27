@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -8,19 +8,27 @@ import './auth.css'
 import { useDispatch } from 'react-redux';
 import { userAPI } from '../../API/userAPI';
 
-
 const AuthMain = () => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
 
     useEffect(() => {
         localStorage.clear();
     }, [])
 
-    const userLogin = async () => {
+    const userLogin = async (event) => {
+        event.preventDefault();
         const email = document.getElementById('authEmail').value;
         const password = document.getElementById('authPassword').value;
+
+        setEmailError(!email);
+        setPasswordError(!password);
+
+        if (!email || !password) return;
+
         const requestBody = {
             "email": email,
             "password": password
@@ -28,7 +36,6 @@ const AuthMain = () => {
 
         await dispatch(userAPI.login(requestBody, navigate));
         dispatch(userAPI.isAdmin());
-
     }
 
     return (
@@ -47,13 +54,22 @@ const AuthMain = () => {
                     <Modal.Body>
                         <Form>
                             <Form.Group className="mb-3 authInput" controlId="authEmail">
-                                <Form.Control type="email" placeholder="Логин" />
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Логин"
+                                    isInvalid={emailError}
+                                />
+
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="authPassword">
-                                <Form.Control type="password" placeholder="Пароль" />
-                            </Form.Group>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Пароль"
+                                    isInvalid={passwordError}
+                                />
 
+                            </Form.Group>
                         </Form>
                     </Modal.Body>
 
@@ -68,9 +84,7 @@ const AuthMain = () => {
                 <Nav.Link as={Link} to="/registration">Зарегистрироваться</Nav.Link>
             </div>
         </div>
-
     )
-
 }
 
 export default AuthMain;

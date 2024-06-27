@@ -31,6 +31,15 @@ const RegistrMain = () => {
     //     console.log('search:', value);
     // };
 
+    const [errors, setErrors] = useState({
+        email: false,
+        password: false,
+        surname: false,
+        name: false,
+        patronymic: false,
+        status: false,
+    });
+
     const userRegistr = () => {
         const email = document.getElementById('formRegistrEmail').value;
         const password = document.getElementById('formRegistrPassword').value;
@@ -39,6 +48,21 @@ const RegistrMain = () => {
         const patronymic = document.getElementById('formRegistrPatronymic').value;
         const idPosition = statusId;
         const fullName = `${surname} ${name} ${patronymic}`;
+
+        const newErrors = {
+            email: !email,
+            password: !password,
+            surname: !surname,
+            name: !name,
+            patronymic: !patronymic,
+            status: !idPosition,
+        };
+
+        setErrors(newErrors);
+
+        if (Object.values(newErrors).some(error => error)) {
+            return;
+        }
         const requestBody = {
             "fullName": fullName,
             "email": email,
@@ -73,15 +97,15 @@ const RegistrMain = () => {
                     <Modal.Body>
                         <Form>
                             <Form.Group className="mb-3 authInput" controlId="formRegistrSurname">
-                                <Form.Control type="text" placeholder="Фамилия" />
+                                <Form.Control type="text" placeholder="Фамилия" isInvalid={errors.surname} />
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrName">
-                                <Form.Control type="text" placeholder="Имя" />
+                                <Form.Control type="text" placeholder="Имя" isInvalid={errors.name} />
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrPatronymic">
-                                <Form.Control type="text" placeholder="Отчество" />
+                                <Form.Control type="text" placeholder="Отчество" isInvalid={errors.patronymic} />
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrPosition">
@@ -97,11 +121,11 @@ const RegistrMain = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrEmail">
-                                <Form.Control type="email" placeholder="Email" />
+                                <Form.Control type="email" placeholder="Email" isInvalid={errors.email} />
                             </Form.Group>
 
                             <Form.Group className="mb-3 authInput" controlId="formRegistrPassword">
-                                <Form.Control type="password" placeholder="Пароль" />
+                                <Form.Control type="password" placeholder="Пароль" isInvalid={errors.password} />
                             </Form.Group>
 
                         </Form>
