@@ -1,4 +1,4 @@
-import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator } from "../reducers/client-reducer";
+import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator,getConcretOpfActionCreator,editClientActionCreator } from "../reducers/client-reducer";
 
 const url = '84.201.140.78';
 
@@ -163,6 +163,25 @@ const getSelectorClients = () => {
         dispatch(getClientsSimpleActionCreator(data));
     }).catch(error => console.log(error))
 }
+const getConcretOpfId = (name) => {
+    return dispatch => fetch(`http://${url}:8083/api/client/opf?name=${name}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then(response => {
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Не удалось получить конкретный опф')
+        }
+        console.log("Успешно получен конкретный опф")
+        return response.json()
+    }).then(data => {
+        console.log(data);
+        dispatch(getConcretOpfActionCreator(data));
+    }).catch(error => console.log(error))
+}
 
 export const clientAPI = {
     getListOfClients: getListOfClients,
@@ -172,5 +191,6 @@ export const clientAPI = {
     getOpfId: getOpfId,
     addOpf: addOpf,
     getRequisites: getRequisites,
-    getSelectorClients:getSelectorClients
+    getSelectorClients:getSelectorClients,
+    getConcretOpfId:getConcretOpfId
 }
