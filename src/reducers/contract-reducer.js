@@ -76,7 +76,15 @@ const initialContractState = {
         startDate:"",
         subject:"",
         volume:false
-    }
+    },
+    priceList:[
+        {
+            id: "",
+            law: "",
+            name: "",
+            price: 0
+        }
+    ]
 }
 
 const GET_LIST_OF_CONTRACTS = "GET_LIST_OF_CONTRACTS";
@@ -84,6 +92,8 @@ const CREATE_CONTRACT = "CREATE_CONTRACT";
 const DELETE = "DELETE";
 const CONCRETE = "CONCRETE";
 const MAKE_DONE = "MAKE_DONE";
+const GET_PRICES = "GET_PRICES";
+const ADD_PRICE = "ADD_PRICE";
 
 const contractReducer = (state = initialContractState, action) => {
     const newState = { ...state };
@@ -103,6 +113,12 @@ const contractReducer = (state = initialContractState, action) => {
             let id = newState.contract.priceList.filter(obj => obj.name===action.payload.name)[0].id;
             newState.contract.priceList = [...newState.contract.priceList.filter(obj => obj.name!==action.payload.name),{...action.payload, id:id}];
             return newState
+        case GET_PRICES:
+            newState.priceList = [...action.payload]
+            return newState;
+        case ADD_PRICE:
+            newState.priceList = [...newState.priceList,{...action.payload}]
+            return newState;
         default:
             return newState;
     }
@@ -126,6 +142,13 @@ export function getConcreteContractActionCreator(data){
 
 export function makeDoneWorkActionCreator(payload){
     return {type: MAKE_DONE, payload:payload}
+}
+
+export function getPricesForContractActionCreator(payload){
+    return {type: GET_PRICES, payload: payload};
+}
+export function addPricesForContractActionCreator(payload){
+    return {type: ADD_PRICE, payload: payload};
 }
 
 export default contractReducer;

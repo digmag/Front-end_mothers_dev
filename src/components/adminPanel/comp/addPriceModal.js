@@ -5,10 +5,41 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { clientAPI } from '../../../API/clientAPI';
 import { userAPI } from '../../../API/userAPI';
+import { contractAPI } from '../../../API/contractAPI';
 
-const AddPriceModal = ({ show, handleClose, id }) => {
+const AddPriceModal = ({ show, handleClose }) => {
 
     const dispatch = useDispatch();
+    const [state, setState] = useState({
+        law:"",
+        name:"",
+        price:0
+    })
+    const setLaw = (e) => {
+        setState({
+            law:e.target.value,
+            name:state.name,
+            price:state.price
+        })
+    }
+    const setName = (e) => {
+        setState({
+            law:state.law,
+            name:e.target.value,
+            price:state.price
+        })
+    }
+    const setPrice = (e) => {
+        setState({
+            law:state.law,
+            name:state.name,
+            price:e.target.value
+        })
+    }
+    const addPrice = () => {
+        dispatch(contractAPI.addPrice(state))
+        handleClose();
+    }
 
     return (
         <Modal
@@ -23,10 +54,21 @@ const AddPriceModal = ({ show, handleClose, id }) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                
+                <Form.Group>
+                    <Form.Label>Закон</Form.Label>
+                    <Form.Control onInput={setLaw} placeholder='223 или 44'/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Наименование</Form.Label>
+                    <Form.Control onInput={setName} placeholder='Имя'/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Цена</Form.Label>
+                    <Form.Control onInput={setPrice} type='number' placeholder='123'/>
+                </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary">
+                <Button variant="primary" onClick={addPrice}>
                     Сохранить
                 </Button>
             </Modal.Footer>
@@ -34,4 +76,4 @@ const AddPriceModal = ({ show, handleClose, id }) => {
     )
 }
 
-export default EditStatusModal;
+export default AddPriceModal;

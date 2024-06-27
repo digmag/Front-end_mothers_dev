@@ -7,6 +7,9 @@ import { userAPI } from '../../API/userAPI';
 import AddStatusModal from './comp/addStatusModal';
 import EditStatusModal from './comp/editStatusModal';
 import './adminPanel.css';
+import AddPriceModal from './comp/addPriceModal';
+import { contractAPI } from '../../API/contractAPI';
+import { Table } from 'react-bootstrap';
 // import AddOpfModal from './comp/addOpfModal';
 
 const AdminPanelMain = () => {
@@ -15,6 +18,7 @@ const AdminPanelMain = () => {
 
     useEffect(() => {
         dispatch(userAPI.getStatus());
+        dispatch(contractAPI.getPrices(""))
     }, [])
     const statusList = useSelector(state => state.userReducer.statusList);
 
@@ -36,7 +40,14 @@ const AdminPanelMain = () => {
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
-
+    const [showAddPrice, setShowAddPrice] = useState(false);
+    const handleAddPrice = () => {
+        setShowAddPrice(true)
+    }
+    const handleCloseAddPrice = () => {
+        setShowAddPrice(false);
+    }
+    const statePrices = useSelector(state => state.contractReducer.priceList)
 
     return (
         <div>
@@ -62,7 +73,34 @@ const AdminPanelMain = () => {
                 </div>
                 {/* <h4 className='mt-4'>Добавление ОПФ(организационно-правовой формы)</h4> */}
 
-
+                <h4>Добавить позицию прайс листа</h4>
+                <Button onClick={handleAddPrice}>Добавить</Button>
+                <AddPriceModal show={showAddPrice} handleClose={handleCloseAddPrice}/>
+                <Table>
+                    <thead>
+                        <th>Закон</th>
+                        <th>Название</th>
+                        <th>Цена</th>
+                    </thead>
+                    <tbody>
+                        {statePrices.map(el => (
+                            <tr key={el.id}>
+                                <th>
+                                    {el.law} фз.
+                                </th>
+                                <th>
+                                    {el.name}
+                                </th>
+                                <th>
+                                    {el.price}
+                                </th>
+                                <th>
+                                    <Button variant='warning'>Изменить</Button>
+                                </th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </div>
 
         </div>
