@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {clientAPI} from '../../../API/clientAPI'
 import { userAPI } from '../../../API/userAPI';
 import { contractAPI } from '../../../API/contractAPI';
+import { Form as BootSelect} from "react-bootstrap";
 
 function Filters(){
 
@@ -60,7 +61,14 @@ function Filters(){
     const handleChangee = (value) => {
         setEmployeeId(value)
       };
-
+    const [clientID, setClientid] = useState("");
+    const onChange =(e)=>{
+        setClientid(e.target.value)
+    }
+    const searhcClick = () =>{
+        console.log(clientID)
+        dispatch(contractAPI.getListOfContracts(clientID))
+    }
 
     const addContract = () => {
         const requestBody = {
@@ -105,8 +113,13 @@ function Filters(){
                 </Col>
                 <Col span={12}>
                     <Row>
-                        <Input style={{width:'20vw', backgroundColor:'#E4ECFC', border:'0'}}/>
-                        <Button type="primary" style={{margin:'0 0 0 1vw', ...styleButton}}><img src={magn} alt="magn"/>Поиск</Button>
+                        <BootSelect.Select style={{width:'20vw', backgroundColor:'#E4ECFC', border:'0'}} onChange={onChange}>
+                            <option value="">Без выбора</option>
+                            {clients.map(el => (
+                                <option value={el.value}>{el.label}</option>
+                            ))}
+                        </BootSelect.Select>
+                        <Button type="primary" style={{margin:'0 0 0 1vw', ...styleButton}}><img src={magn} alt="magn" onClick={searhcClick}/>Поиск</Button>
                     </Row>
                 </Col>
                 <Col span={4} style={{display:'flex', justifyContent:'end'}}>
