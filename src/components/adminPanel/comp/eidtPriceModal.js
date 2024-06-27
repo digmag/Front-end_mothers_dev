@@ -7,13 +7,12 @@ import { clientAPI } from '../../../API/clientAPI';
 import { userAPI } from '../../../API/userAPI';
 import { contractAPI } from '../../../API/contractAPI';
 
-const AddPriceModal = ({ show, handleClose }) => {
-
+const EditPriceModal = ({ show, handleClose, id }) => {
     const dispatch = useDispatch();
     const [state, setState] = useState({
         law:"",
         name:"",
-        price:0
+        price:""
     })
     const setLaw = (e) => {
         setState({
@@ -36,8 +35,8 @@ const AddPriceModal = ({ show, handleClose }) => {
             price:e.target.value
         })
     }
-    const addPrice = () => {
-        dispatch(contractAPI.addPrice(state))
+    const editPrice = () => {
+        dispatch(contractAPI.editPrice(state, id))
         handleClose();
     }
 
@@ -68,12 +67,12 @@ const AddPriceModal = ({ show, handleClose }) => {
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={addPrice}>
-                    Сохранить
+                <Button variant="warning" onClick={editPrice}>
+                    Изменить
                 </Button>
             </Modal.Footer>
         </Modal>
     )
 }
 
-export default AddPriceModal;
+export default EditPriceModal;

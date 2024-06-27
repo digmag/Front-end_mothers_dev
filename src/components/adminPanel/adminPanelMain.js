@@ -7,6 +7,10 @@ import { userAPI } from '../../API/userAPI';
 import AddStatusModal from '../listOfManuals/addStatusModal';
 import EditStatusModal from './comp/editStatusModal';
 import './adminPanel.css';
+import AddPriceModal from './comp/addPriceModal';
+import { contractAPI } from '../../API/contractAPI';
+import { Table } from 'react-bootstrap';
+import EditPriceModal from './comp/eidtPriceModal';
 // import AddOpfModal from './comp/addOpfModal';
 
 const AdminPanelMain = () => {
@@ -15,6 +19,7 @@ const AdminPanelMain = () => {
 
     useEffect(() => {
         dispatch(userAPI.getStatus());
+        dispatch(contractAPI.getPrices(""))
     }, [])
     const statusList = useSelector(state => state.userReducer.statusList);
 
@@ -33,7 +38,27 @@ const AdminPanelMain = () => {
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
+    const [showAddPrice, setShowAddPrice] = useState(false);
+    const handleAddPrice = () => {
+        setShowAddPrice(true)
+    }
+    const handleCloseAddPrice = () => {
+        setShowAddPrice(false);
+    }
+    const [showEditPrice, setShowEditPrice] = useState(false);
+    const [editid, setEditid] = useState("");
+    const handleEditPrice = (e) => {
+        setEditid(e.target.getAttribute("idprop"));
+        setShowEditPrice(true)
+    }
+    const handleCloseEditPrice = () => {
+        setShowEditPrice(false);
+    }
 
+    const handleDelete = (e) => {
+        dispatch(contractAPI.deletePrice(e.target.getAttribute("idprop")))
+    }
+    const statePrices = useSelector(state => state.contractReducer.priceList)
 
     return (
         <div>
@@ -58,7 +83,38 @@ const AdminPanelMain = () => {
                 </div>
                 {/* <h4 className='mt-4'>Добавление ОПФ(организационно-правовой формы)</h4> */}
 
-
+                <h4>Добавить позицию прайс листа</h4>
+                <Button onClick={handleAddPrice}>Добавить</Button>
+                <AddPriceModal show={showAddPrice} handleClose={handleCloseAddPrice}/>
+                <Table>
+                    <thead>
+                        <th>Закон</th>
+                        <th>Название</th>
+                        <th>Цена</th>
+                    </thead>
+                    <tbody>
+                        {statePrices.map(el => (
+                            <tr key={el.id}>
+                                <th>
+                                    {el.law} фз.
+                                </th>
+                                <th>
+                                    {el.name}
+                                </th>
+                                <th>
+                                    {el.price}
+                                </th>
+                                <th>
+                                    <Button variant='warning' idProp={el.id} onClick={handleEditPrice}>Изменить</Button>
+                                    <EditPriceModal id={editid} law={String(el.law)} name={String(el.name)} price={String(el.price)} show={showEditPrice} handleClose={handleCloseEditPrice}/>
+                                </th>
+                                <th>
+                                    <Button variant='danger' idProp={el.id} onClick={handleDelete}>Удалить</Button>
+                                </th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </div>
 
         </div>
