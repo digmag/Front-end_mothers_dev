@@ -1,9 +1,9 @@
-import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator,getConcretOpfActionCreator,editClientActionCreator } from "../reducers/client-reducer";
+import { createClientActionCreator, getBicActionCreator, getClientInfoActionCreator, getClientsSimpleActionCreator, getListOfClientsActionCreator, getOpfActionCreator, getRequisitesActionCreator, getConcretOpfActionCreator, editClientActionCreator } from "../reducers/client-reducer";
 
 const url = '84.201.140.78';
 
-const getListOfClients = (page) => {
-    return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}`, {
+const getListOfClients = (page = 0, isLaw = '', inn = '', name = '', email = '', ceoName = '') => {
+    return dispatch => fetch(`http://${url}:8083/api/client/list?page=${page}&isLaw=${isLaw}&inn=${inn}&name=${name}&email=${email}&ceoName=${ceoName}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -220,7 +220,8 @@ const editClient = (body, id) => {
     }).then(data => {
         console.log(data);
         dispatch(editClientActionCreator(data));
-    }).catch(error => console.log(error));}
+    }).catch(error => console.log(error));
+}
 
 export const clientAPI = {
     getListOfClients: getListOfClients,
@@ -230,8 +231,8 @@ export const clientAPI = {
     getOpfId: getOpfId,
     addOpf: addOpf,
     getRequisites: getRequisites,
-    getSelectorClients:getSelectorClients,
-    getConcretOpfId:getConcretOpfId,
-    editClient:editClient,
-    deleteClient:deleteClient
+    getSelectorClients: getSelectorClients,
+    getConcretOpfId: getConcretOpfId,
+    editClient: editClient,
+    deleteClient: deleteClient
 }
