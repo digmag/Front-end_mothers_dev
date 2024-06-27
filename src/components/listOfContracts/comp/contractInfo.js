@@ -3,21 +3,18 @@ import HeaderMain from '../../header/headerMain';
 import { useParams } from 'react-router-dom';
 import '../../clientInfo/clientInfo.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { clientAPI } from '../../../API/clientAPI';
 import { contractAPI } from '../../../API/contractAPI';
-import useSelection from 'antd/es/table/hooks/useSelection';
 import PirceListContract from './priceListContract';
 
 const ContractInfoMain = () => {
 
     const { id } = useParams();
     const dispatch = useDispatch();
-
+        
     useEffect(() => {
         dispatch(contractAPI.getConcreteContract(id));
     }, [])
     const concrete = useSelector(state=>state.contractReducer.contract)
-
     return (
         <div>
             <HeaderMain />
@@ -40,6 +37,8 @@ const ContractInfoMain = () => {
                 done={el.done}
                 price={el.price}
                 sum={el.sum}
+                id={el.id}
+                disp={()=>dispatch(contractAPI.getConcreteContract(id))}
                 />
             ))}
 
