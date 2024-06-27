@@ -15,7 +15,6 @@ const getDoneWork = (start, end) => {
         }
         return response.json();
     }).then(data => {
-        console.log(data)
         dispatch(doneWorkActionCreator(data));
     }).catch(error => console.log(error));
 }
