@@ -7,10 +7,11 @@ const CardOfClient = (props) => {
     const { id, faceType, fullName, inn, ceoFullName, phone, email } = props;
     let backColor;
     if (faceType === 'LAW') {
-        backColor = '#FFD6D6';
+        backColor = '#D6E4FF';
     }
     else {
-        backColor = '#D6E4FF';
+        backColor = '#FFD6D6';
+
     }
 
     return (
