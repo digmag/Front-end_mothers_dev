@@ -17,7 +17,6 @@ const login = (body, navigate) => {
         console.log("Успешно залогинились")
         return response.json()
     }).then(data => {
-        console.log("ttttttt");
         localStorage.setItem("token", data.token);
         dispatch(loginActionCreator());
         navigate("/clients");
@@ -36,7 +35,6 @@ const registration = (body) => {
             console.log(response);
             throw new Error('Не удалось зарегистрироваться')
         }
-        console.log("Успешно зарегались")
         return response.text()
     })
 }
@@ -52,7 +50,6 @@ const varification = (id) => {
             console.log(response);
             throw new Error('Не удалось подтвердить учетную запись')
         }
-        console.log("Успешно подтвердили учетную запись")
         return response.text()
     }).catch(error => console.log(error))
 }
@@ -69,7 +66,6 @@ const recoverEmail = (body) => {
             console.log(response);
             throw new Error('Не удалось отправить восстановление на емаил')
         }
-        console.log("Успешно отправлено на емаил")
         return response.text()
     }).catch(error => console.log(error))
 }
@@ -86,7 +82,6 @@ const recoverPassword = (body, id) => {
             console.log(response);
             throw new Error('Не удалось изменить пароль')
         }
-        console.log("Успешно изменен пароль")
         return response.text()
     }).catch(error => console.log(error))
 }
@@ -105,7 +100,6 @@ const getStatus = () => {
         console.log("Успешно получили должности")
         return response.json()
     }).then(data => {
-        console.log(data);
         dispatch(statusListActionCreator(data));
     }).catch(error => console.log(error))
 }
@@ -122,10 +116,8 @@ const isAdmin = () => {
             console.log(response);
             throw new Error('Не получили инфу, админ или нет')
         }
-        console.log("Получили инфу, админ или нет")
         return response.text()
     }).then(data => {
-        console.log(data);
         dispatch(isAdminActionCreator(data));
     }).catch(error => console.log(error))
 }
@@ -146,7 +138,6 @@ const addStatus = (body) => {
         console.log("Успешно добавлена должность")
         return response.json()
     }).then(data => {
-        console.log(data);
         dispatch(addStatusActionCreator(data));
     }).catch(error => console.log(error))
 }
@@ -164,7 +155,6 @@ const editStatus = (body, id) => {
             console.log(response);
             throw new Error('Не удалось изменить должность')
         }
-        console.log("Успешно изменена должность")
         return response.text()
     }).catch(error => console.log(error))
 }
