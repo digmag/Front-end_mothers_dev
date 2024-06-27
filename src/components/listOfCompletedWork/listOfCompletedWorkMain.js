@@ -73,7 +73,7 @@ const ListOfCompletedWorkMain = () => {
                                 </tr>
                             ))}
                             <tr>
-                                <tb>{sumConverter(el.sum)}</tb>
+                                <tb>Итого выполнено за период: {sumConverter(el.sum)}</tb>
                             </tr>
                             </>
                         ))}
